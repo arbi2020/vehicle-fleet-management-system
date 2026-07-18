@@ -1,8 +1,8 @@
-# UA3 Vehicle Fleet Management System
+# Vehicle Fleet Management System
 
 ## Description
 
-This project is developed for the Advanced Programming (UA3) course.
+This project is developed for the Advanced Programming course.
 
 It is a Vehicle Fleet Management System developed in Java using Object-Oriented Programming principles.
 
