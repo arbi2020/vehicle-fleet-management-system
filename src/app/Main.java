@@ -7,7 +7,7 @@ import service.CsvManager;
 import service.FleetManager;
 import service.MaintenanceManager;
 import service.RentalManager;
-
+import service.StatisticsManager;
 
 public class Main {
 
@@ -175,6 +175,36 @@ public class Main {
                 + maintenanceManager.getMaintenanceCount()
         );
 
-    }
+        System.out.println("\n===== STATISTICS =====");
+
+
+        StatisticsManager statisticsManager = new StatisticsManager();
+
+
+        System.out.println("Average mileage : " + statisticsManager.calculateAverageMileage(
+                fleetManager.getVehicles()));
+
+
+
+        System.out.println("Estimated revenue : "+ statisticsManager.calculateTotalRevenue(
+                fleetManager.getVehicles(),5));
+
+
+
+        System.out.println("Vehicles by type : " + statisticsManager.countByType(
+                fleetManager.getVehicles()));
+
+
+
+        System.out.println("Vehicles needing maintenance : ");
+
+
+
+        for (Vehicle v : statisticsManager.vehiclesNeedingMaintenance(
+                fleetManager.getVehicles())) { 
+                        System.out.println(v);
+                }          
+
+   }
 
 }
