@@ -4,6 +4,7 @@ import model.Car;
 import model.SUV;
 import model.Truck;
 import model.Vehicle;
+import service.FleetManager;
 
 public class Main {
 
@@ -91,6 +92,21 @@ public class Main {
 
 
         truck.performMaintenance();
+
+        FleetManager fleetManager = new FleetManager();
+
+
+        fleetManager.addVehicle(suv);
+        fleetManager.addVehicle(truck);
+        fleetManager.addVehicle(car);
+
+
+        System.out.println("\n===== FLEET =====");
+
+        fleetManager.displayVehicles();
+
+
+        System.out.println("Total vehicles: " + fleetManager.getVehicleCount());
 
     }
 }
