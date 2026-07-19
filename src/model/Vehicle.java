@@ -44,6 +44,9 @@ public abstract class Vehicle implements Rentable, Maintainable {
         return mileage;
     }
 
+    public int getYear() {
+        return year;
+    }
 
     public boolean isAvailable() {
         return available;
