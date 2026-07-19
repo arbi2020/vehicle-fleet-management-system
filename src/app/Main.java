@@ -1,10 +1,12 @@
 package app;
 
+import exceptions.VehicleNotAvailableException;
 import model.Car;
 import model.SUV;
 import model.Truck;
 import model.Vehicle;
 import service.FleetManager;
+import service.RentalManager;
 
 public class Main {
 
@@ -107,6 +109,26 @@ public class Main {
 
 
         System.out.println("Total vehicles: " + fleetManager.getVehicleCount());
+
+        System.out.println("\n===== RENTAL MANAGER TEST =====");
+
+        RentalManager rentalManager = new RentalManager();
+
+
+        try {
+                rentalManager.rentVehicle(car);
+                double price = rentalManager.calculateRentalCost(car, 3);
+
+                System.out.println("Rental price: " + price + "$");
+
+
+        rentalManager.returnVehicle(car);
+
+
+        } catch (VehicleNotAvailableException e) {
+                System.out.println(e.getMessage());
+
+        }
 
     }
 }
