@@ -1,13 +1,17 @@
 package app;
 
 import exceptions.VehicleNotAvailableException;
+import java.util.ArrayList;
 import model.Car;
 import model.SUV;
 import model.Truck;
 import model.Vehicle;
+import service.CsvManager;
 import service.FleetManager;
 import service.MaintenanceManager;
 import service.RentalManager;
+
+
 
 public class Main {
 
@@ -149,6 +153,30 @@ public class Main {
 
 
         System.out.println("Vehicles in maintenance: " + maintenanceManager.getMaintenanceCount());
+
+
+        System.out.println("\n===== CSV LOADING TEST =====");
+
+
+        CsvManager csvManager = new CsvManager();
+
+
+        try {
+                ArrayList<Vehicle> vehicles = csvManager.loadVehicles(
+                        "data/vehicles.csv");
+
+
+        System.out.println("Vehicles loaded: " + vehicles.size());
+
+
+        for (Vehicle vehicle : vehicles) {
+                System.out.println(vehicle);
+        }
+
+
+        } catch (Exception e) {
+                System.out.println("Error while loading CSV: " + e.getMessage());
+        }
 
     }
 }

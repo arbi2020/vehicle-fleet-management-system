@@ -1,0 +1,16 @@
+id,type,brand,model,year,mileage,rented,extra
+V001,Car,Toyota,Corolla,2022,15000,false,4
+V002,Car,Honda,Civic,2021,22000,true,4
+V003,SUV,BMW,X5,2020,45000,false,true
+V004,SUV,Audi,Q7,2022,18000,false,true
+V005,Truck,Ford,F150,2019,65000,true,2.5
+V006,Truck,RAM,1500,2021,40000,false,3
+V007,Car,Hyundai,Elantra,2023,8000,false,4
+V008,SUV,Toyota,RAV4,2022,25000,false,true
+V009,Truck,Chevrolet,Silverado,2018,90000,true,4
+V010,Car,Volkswagen,Golf,2020,30000,false,5
+V011,SUV,Mercedes,GLE,2021,35000,false,true
+V012,Truck,Toyota,Tundra,2022,12000,false,3
+V013,Car,Kia,Optima,2019,50000,true,4
+V014,SUV,Nissan,Rogue,2023,10000,false,true
+V015,Truck,Ford,Transit,2020,-500,false,2.0
