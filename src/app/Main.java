@@ -7,6 +7,7 @@ import service.CsvManager;
 import service.FleetManager;
 import service.MaintenanceManager;
 import service.RentalManager;
+import service.ReportManager;
 import service.StatisticsManager;
 
 public class Main {
@@ -203,7 +204,22 @@ public class Main {
         for (Vehicle v : statisticsManager.vehiclesNeedingMaintenance(
                 fleetManager.getVehicles())) { 
                         System.out.println(v);
-                }          
+                }   
+                
+        
+        // ===============================
+        // Report generation
+        // ===============================
+
+        System.out.println("\n===== REPORT GENERATION =====");
+
+        ReportManager reportManager = new ReportManager();
+
+        reportManager.generateReport(
+                fleetManager.getVehicles(),
+                statisticsManager,
+                "reports/fleet_report.txt"
+                );
 
    }
 

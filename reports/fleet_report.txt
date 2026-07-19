@@ -1,0 +1,18 @@
+========== VEHICLE FLEET REPORT ==========
+
+Total vehicles : 14
+Average mileage : 33214.29 km
+Estimated revenue (5 days) : 5650.00 $
+
+Vehicles by type
+----------------
+Car : 5
+SUV : 5
+Truck : 4
+
+Vehicles requiring maintenance
+------------------------------
+V005 - Ford F150
+V009 - Chevrolet Silverado
+
+Report generated successfully.
