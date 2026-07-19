@@ -2,9 +2,6 @@ package app;
 
 import exceptions.VehicleNotAvailableException;
 import java.util.ArrayList;
-import model.Car;
-import model.SUV;
-import model.Truck;
 import model.Vehicle;
 import service.CsvManager;
 import service.FleetManager;
@@ -12,136 +9,160 @@ import service.MaintenanceManager;
 import service.RentalManager;
 
 
-
 public class Main {
+
 
     public static void main(String[] args) {
 
 
-        // Création des véhicules
-
-        Vehicle car = new Car(
-                "C001",
-                "Toyota",
-                "Corolla",
-                2022,
-                15000,
-                4
-        );
-
-
-        Vehicle suv = new SUV(
-                "S001",
-                "BMW",
-                "X5",
-                2021,
-                35000,
-                true
-        );
-
-
-        Vehicle truck = new Truck(
-                "T001",
-                "Ford",
-                "F150",
-                2020,
-                70000,
-                2.5
-        );
-
-
-        // Affichage initial
-
-        System.out.println("===== VEHICLES =====");
-
-        System.out.println(car);
-        System.out.println(suv);
-        System.out.println(truck);
-
-
-        // Test location
-
-        System.out.println("\n===== RENTAL TEST =====");
-
-        car.rent();
-
         System.out.println(
-                "Car available : " + car.isAvailable()
+                "===== VEHICLE FLEET MANAGEMENT SYSTEM ====="
         );
 
 
-        double cost = car.calculateRentalCost(5);
-
-        System.out.println(
-                "Rental cost for 5 days : " + cost + "$"
-        );
+        // ===============================
+        // Load vehicles from CSV
+        // ===============================
 
 
-        // Retour du véhicule
-
-        car.returnVehicle();
-
-        System.out.println(
-                "Car available after return : "
-                + car.isAvailable()
-        );
+        CsvManager csvManager =
+                new CsvManager();
 
 
-        // Test maintenance
+        FleetManager fleetManager =
+                new FleetManager();
 
-        System.out.println("\n===== MAINTENANCE TEST =====");
-
-
-        System.out.println(
-                "Truck needs maintenance : "
-                + truck.needsMaintenance()
-        );
-
-
-        truck.performMaintenance();
-
-        FleetManager fleetManager = new FleetManager();
-
-
-        fleetManager.addVehicle(suv);
-        fleetManager.addVehicle(truck);
-        fleetManager.addVehicle(car);
-
-
-        System.out.println("\n===== FLEET =====");
-
-        fleetManager.displayVehicles();
-
-
-        System.out.println("Total vehicles: " + fleetManager.getVehicleCount());
-
-        System.out.println("\n===== RENTAL MANAGER TEST =====");
-
-        RentalManager rentalManager = new RentalManager();
 
 
         try {
-                rentalManager.rentVehicle(car);
-                double price = rentalManager.calculateRentalCost(car, 3);
-
-                System.out.println("Rental price: " + price + "$");
 
 
-        rentalManager.returnVehicle(car);
+            ArrayList<Vehicle> vehicles =
+                    csvManager.loadVehicles(
+                            "data/vehicles.csv"
+                    );
 
 
-        } catch (VehicleNotAvailableException e) {
-                System.out.println(e.getMessage());
+            fleetManager.loadFleet(
+                    vehicles
+            );
+
+
+            System.out.println(
+                    "\nVehicles loaded : "
+                    + fleetManager.getVehicleCount()
+            );
+
+
+
+            fleetManager.displayVehicles();
+
+
+
+        }
+        catch (Exception e) {
+
+
+            System.out.println(
+                    "CSV Loading Error : "
+                    + e.getMessage()
+            );
 
         }
 
-        System.out.println("\n===== MAINTENANCE TEST =====");
-
-        MaintenanceManager maintenanceManager = new MaintenanceManager();
 
 
-        if (truck.needsMaintenance()) {
-                maintenanceManager.reportMaintenance(truck);
+        // ===============================
+        // Rental management
+        // ===============================
+
+
+        System.out.println(
+                "\n===== RENTAL MANAGEMENT ====="
+        );
+
+
+        RentalManager rentalManager =
+                new RentalManager();
+
+
+
+        Vehicle vehicle =
+                fleetManager.findVehicleById("V001");
+
+
+
+        if (vehicle != null) {
+
+
+            try {
+
+
+                rentalManager.rentVehicle(
+                        vehicle
+                );
+
+
+                double price =
+                        rentalManager.calculateRentalCost(
+                                vehicle,
+                                5
+                        );
+
+
+                System.out.println(
+                        "Rental price : "
+                        + price
+                        + "$"
+                );
+
+
+                rentalManager.returnVehicle(
+                        vehicle
+                );
+
+
+            }
+            catch (VehicleNotAvailableException e) {
+
+
+                System.out.println(
+                        e.getMessage()
+                );
+
+            }
+
+        }
+
+
+
+        // ===============================
+        // Maintenance management
+        // ===============================
+
+
+        System.out.println(
+                "\n===== MAINTENANCE MANAGEMENT ====="
+        );
+
+
+        MaintenanceManager maintenanceManager =
+                new MaintenanceManager();
+
+
+
+        for (Vehicle v :
+                fleetManager.getVehicles()) {
+
+
+            if (v.needsMaintenance()) {
+
+
+                maintenanceManager.reportMaintenance(
+                        v
+                );
+
+            }
 
         }
 
@@ -149,34 +170,11 @@ public class Main {
         maintenanceManager.displayMaintenanceList();
 
 
-        maintenanceManager.performMaintenance(truck);
-
-
-        System.out.println("Vehicles in maintenance: " + maintenanceManager.getMaintenanceCount());
-
-
-        System.out.println("\n===== CSV LOADING TEST =====");
-
-
-        CsvManager csvManager = new CsvManager();
-
-
-        try {
-                ArrayList<Vehicle> vehicles = csvManager.loadVehicles(
-                        "data/vehicles.csv");
-
-
-        System.out.println("Vehicles loaded: " + vehicles.size());
-
-
-        for (Vehicle vehicle : vehicles) {
-                System.out.println(vehicle);
-        }
-
-
-        } catch (Exception e) {
-                System.out.println("Error while loading CSV: " + e.getMessage());
-        }
+        System.out.println(
+                "Vehicles requiring maintenance : "
+                + maintenanceManager.getMaintenanceCount()
+        );
 
     }
+
 }

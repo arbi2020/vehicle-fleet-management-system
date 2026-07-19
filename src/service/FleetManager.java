@@ -1,7 +1,7 @@
 package service;
 
-import model.Vehicle;
 import java.util.ArrayList;
+import model.Vehicle;
 
 public class FleetManager {
 
@@ -85,6 +85,12 @@ public class FleetManager {
     public int getVehicleCount() {
 
         return vehicles.size();
+
+    }
+
+    public void loadFleet(ArrayList<Vehicle> vehicles) {
+
+    this.vehicles.addAll(vehicles);
 
     }
 }
