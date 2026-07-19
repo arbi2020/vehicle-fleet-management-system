@@ -6,6 +6,7 @@ import model.SUV;
 import model.Truck;
 import model.Vehicle;
 import service.FleetManager;
+import service.MaintenanceManager;
 import service.RentalManager;
 
 public class Main {
@@ -129,6 +130,25 @@ public class Main {
                 System.out.println(e.getMessage());
 
         }
+
+        System.out.println("\n===== MAINTENANCE TEST =====");
+
+        MaintenanceManager maintenanceManager = new MaintenanceManager();
+
+
+        if (truck.needsMaintenance()) {
+                maintenanceManager.reportMaintenance(truck);
+
+        }
+
+
+        maintenanceManager.displayMaintenanceList();
+
+
+        maintenanceManager.performMaintenance(truck);
+
+
+        System.out.println("Vehicles in maintenance: " + maintenanceManager.getMaintenanceCount());
 
     }
 }
