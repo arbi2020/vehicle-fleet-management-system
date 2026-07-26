@@ -11,20 +11,15 @@ import service.FleetManager;
 public class VehicleController {
 
 
-
     private FleetManager fleetManager;
-
 
 
 
     public VehicleController() {
 
-
         fleetManager = new FleetManager();
 
-
         loadVehicles();
-
 
     }
 
@@ -35,15 +30,11 @@ public class VehicleController {
     private void loadVehicles() {
 
 
-
         try {
-
 
 
             CsvManager csvManager =
                     new CsvManager();
-
-
 
 
             ArrayList<Vehicle> vehicles =
@@ -52,17 +43,13 @@ public class VehicleController {
                     );
 
 
-
-
             fleetManager.loadFleet(
                     vehicles
             );
 
 
-
         }
         catch(Exception e) {
-
 
 
             System.out.println(
@@ -70,13 +57,9 @@ public class VehicleController {
                     + e.getMessage()
             );
 
-
         }
 
-
-
     }
-
 
 
 
@@ -85,9 +68,7 @@ public class VehicleController {
     public ArrayList<Vehicle> getVehicles() {
 
 
-
         return fleetManager.getVehicles();
-
 
     }
 
@@ -95,36 +76,15 @@ public class VehicleController {
 
 
 
-
-    // ==================================
-    // Find vehicle by ID
-    // ==================================
+    // ===============================
+    // Find vehicle
+    // ===============================
 
 
     public Vehicle findVehicle(String id) {
 
 
-
-        for(Vehicle vehicle :
-                fleetManager.getVehicles()) {
-
-
-
-            if(vehicle.getId().equals(id)) {
-
-
-                return vehicle;
-
-
-            }
-
-
-        }
-
-
-
-        return null;
-
+        return fleetManager.findVehicleById(id);
 
     }
 
@@ -132,19 +92,16 @@ public class VehicleController {
 
 
 
-
-    // ==================================
+    // ===============================
     // Rent vehicle
-    // ==================================
+    // ===============================
 
 
     public boolean rentVehicle(String id) {
 
 
-
         Vehicle vehicle =
                 findVehicle(id);
-
 
 
 
@@ -152,19 +109,14 @@ public class VehicleController {
                 && vehicle.isAvailable()) {
 
 
-
             vehicle.rent();
 
-
             return true;
-
 
         }
 
 
-
         return false;
-
 
     }
 
@@ -172,14 +124,12 @@ public class VehicleController {
 
 
 
-
-    // ==================================
+    // ===============================
     // Return vehicle
-    // ==================================
+    // ===============================
 
 
     public boolean returnVehicle(String id) {
-
 
 
         Vehicle vehicle =
@@ -187,23 +137,34 @@ public class VehicleController {
 
 
 
-
         if(vehicle != null
                 && !vehicle.isAvailable()) {
 
 
-
             vehicle.returnVehicle();
 
-
             return true;
-
 
         }
 
 
-
         return false;
+
+    }
+
+
+
+
+
+    // ===============================
+    // Add vehicle
+    // ===============================
+
+
+    public void addVehicle(Vehicle vehicle) {
+
+
+        fleetManager.addVehicle(vehicle);
 
 
     }
