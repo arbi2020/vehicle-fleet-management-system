@@ -3,18 +3,33 @@ package app;
 
 import controller.VehicleController;
 
+
 import javafx.application.Application;
+
+import javafx.beans.value.ObservableValue;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import javafx.collections.transformation.FilteredList;
+
 import javafx.scene.Scene;
+
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+
 import javafx.scene.control.cell.PropertyValueFactory;
 
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+import javafx.geometry.Insets;
+
 import javafx.stage.Stage;
+
 
 import model.Vehicle;
 
@@ -23,16 +38,20 @@ import model.Vehicle;
 public class FleetApplication extends Application {
 
 
+
     @Override
     public void start(Stage stage) {
+
 
 
         // ===============================
         // Load vehicles from CSV
         // ===============================
 
+
         VehicleController controller =
                 new VehicleController();
+
 
 
 
@@ -40,13 +59,15 @@ public class FleetApplication extends Application {
         // Create TableView
         // ===============================
 
+
         TableView<Vehicle> table =
                 new TableView<>();
 
 
 
+
         // ===============================
-        // Columns
+        // Create Columns
         // ===============================
 
 
@@ -120,6 +141,8 @@ public class FleetApplication extends Application {
 
 
 
+
+
         // ===============================
         // Column sizes
         // ===============================
@@ -141,6 +164,8 @@ public class FleetApplication extends Application {
 
 
 
+
+
         // ===============================
         // Add columns
         // ===============================
@@ -158,6 +183,8 @@ public class FleetApplication extends Application {
 
 
 
+
+
         // ===============================
         // Load data
         // ===============================
@@ -169,13 +196,181 @@ public class FleetApplication extends Application {
                 );
 
 
-        table.setItems(data);
 
+
+
+        // ===============================
+        // Search Filter
+        // ===============================
+
+
+        FilteredList<Vehicle> filteredData =
+                new FilteredList<>(
+                        data,
+                        vehicle -> true
+                );
+
+
+
+        table.setItems(filteredData);
+
+
+
+
+
+        // ===============================
+        // Table configuration
+        // ===============================
 
 
         table.setColumnResizePolicy(
                 TableView.CONSTRAINED_RESIZE_POLICY
         );
+
+
+
+
+
+        // ===============================
+        // Header
+        // ===============================
+
+
+        Label title =
+                new Label(
+                        "Vehicle Fleet Management System"
+                );
+
+
+        title.setStyle(
+                "-fx-font-size:22px;"
+                +
+                "-fx-font-weight:bold;"
+        );
+
+
+
+
+
+        // ===============================
+        // Search field
+        // ===============================
+
+
+        TextField searchField =
+                new TextField();
+
+
+        searchField.setPromptText(
+                "Search vehicle..."
+        );
+
+
+
+
+        searchField.textProperty()
+                .addListener(
+
+                (
+                 ObservableValue<? extends String> observable,
+                 String oldValue,
+                 String newValue
+                ) -> {
+
+
+
+                    filteredData.setPredicate(
+                            vehicle -> {
+
+
+
+                                if(newValue == null
+                                        ||
+                                   newValue.isEmpty()) {
+
+
+                                    return true;
+                                }
+
+
+
+                                String keyword =
+                                        newValue.toLowerCase();
+
+
+
+
+                                return
+                                        vehicle.getId()
+                                        .toLowerCase()
+                                        .contains(keyword)
+
+
+                                        ||
+
+
+                                        vehicle.getBrand()
+                                        .toLowerCase()
+                                        .contains(keyword)
+
+
+                                        ||
+
+
+                                        vehicle.getModel()
+                                        .toLowerCase()
+                                        .contains(keyword)
+
+
+                                        ||
+
+
+                                        vehicle.getVehicleType()
+                                        .toLowerCase()
+                                        .contains(keyword);
+
+
+                            }
+                    );
+
+
+                });
+
+
+
+
+
+
+        // ===============================
+        // Buttons
+        // ===============================
+
+
+        Button rentButton =
+                new Button(
+                        "Rent Vehicle"
+                );
+
+
+
+        Button returnButton =
+                new Button(
+                        "Return Vehicle"
+                );
+
+
+
+
+
+        HBox menu =
+                new HBox(
+                        10,
+                        searchField,
+                        rentButton,
+                        returnButton
+                );
+
+
 
 
 
@@ -185,17 +380,35 @@ public class FleetApplication extends Application {
 
 
         VBox root =
-                new VBox(table);
+                new VBox(
+                        15,
+                        title,
+                        menu,
+                        table
+                );
 
 
-        Scene scene =
-                new Scene(root, 1000, 600);
+        root.setPadding(
+                new Insets(15)
+        );
+
+
+
 
 
 
         // ===============================
         // Window
         // ===============================
+
+
+        Scene scene =
+                new Scene(
+                        root,
+                        1000,
+                        600
+                );
+
 
 
         stage.setTitle(
@@ -208,14 +421,21 @@ public class FleetApplication extends Application {
 
         stage.show();
 
+
+
     }
+
+
 
 
 
     public static void main(String[] args) {
 
+
         launch(args);
 
+
     }
+
 
 }

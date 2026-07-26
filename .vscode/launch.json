@@ -1,0 +1,19 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Main",
+            "request": "launch",
+            "mainClass": "app.Main",
+            "projectName": "vehicle-fleet-management-system_49c40e89"
+        },
+        {
+            "type": "java",
+            "name": "Run JavaFX Fleet Application",
+            "request": "launch",
+            "mainClass": "app.FleetApplication",
+            "vmArgs": "--module-path C:/Users/tahab/Downloads/javafx-sdk-17.0.19/lib --add-modules javafx.controls,javafx.fxml"
+        }
+    ]
+}
