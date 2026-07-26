@@ -1,0 +1,541 @@
+/* ==================================================
+   GLOBAL
+   ================================================== */
+
+
+.root {
+
+    -fx-font-family: "Segoe UI";
+
+    -fx-background-color: #F8FAFC;
+
+}
+
+
+
+/* ==================================================
+   MAIN CONTAINER
+   ================================================== */
+
+
+.main-container {
+
+    -fx-background-color: #F8FAFC;
+
+}
+
+
+
+
+
+/* ==================================================
+   TITLE
+   ================================================== */
+
+
+.title-label {
+
+    -fx-font-size: 24px;
+
+    -fx-font-weight: bold;
+
+    -fx-text-fill: #0F172A;
+
+}
+
+
+
+
+
+
+/* ==================================================
+   LABELS
+   ================================================== */
+
+
+.label {
+
+    -fx-text-fill: #334155;
+
+    -fx-font-size: 14px;
+
+}
+
+
+
+
+
+
+/* ==================================================
+   DASHBOARD CARD
+   ================================================== */
+
+
+.card {
+
+    -fx-background-color: white;
+
+    -fx-background-radius: 12;
+
+    -fx-border-radius: 12;
+
+    -fx-border-color: #E2E8F0;
+
+    -fx-padding: 20;
+
+
+    -fx-effect:
+
+        dropshadow(
+            gaussian,
+            rgba(0,0,0,0.12),
+            8,
+            0,
+            0,
+            3
+        );
+
+}
+
+
+
+
+
+
+/* ==================================================
+   TOOLBAR
+   ================================================== */
+
+
+.toolbar {
+
+    -fx-background-color: white;
+
+    -fx-padding: 15;
+
+    -fx-spacing: 15;
+
+    -fx-background-radius: 12;
+
+    -fx-border-radius: 12;
+
+    -fx-border-color: #E2E8F0;
+
+}
+
+
+
+
+
+
+/* ==================================================
+   SEARCH FIELD
+   ================================================== */
+
+
+.text-field {
+
+    -fx-background-color: white;
+
+    -fx-background-radius: 10;
+
+    -fx-border-radius: 10;
+
+    -fx-border-color: #CBD5E1;
+
+    -fx-padding: 10;
+
+}
+
+
+
+.text-field:focused {
+
+    -fx-border-color: #2563EB;
+
+    -fx-border-width: 2;
+
+}
+
+
+
+
+
+
+
+/* ==================================================
+   BUTTONS
+   ================================================== */
+
+
+.button {
+
+    -fx-background-color: #2563EB;
+
+    -fx-text-fill: white;
+
+    -fx-font-weight: bold;
+
+    -fx-background-radius: 8;
+
+    -fx-padding: 10 20;
+
+    -fx-cursor: hand;
+
+}
+
+
+
+.button:hover {
+
+    -fx-opacity: 0.85;
+
+}
+
+
+
+
+.add-button {
+
+    -fx-background-color: #16A34A;
+
+}
+
+
+
+.return-button {
+
+    -fx-background-color: #0891B2;
+
+}
+
+
+
+.refresh-button {
+
+    -fx-background-color: #64748B;
+
+}
+
+
+
+.delete-button {
+
+    -fx-background-color: #DC2626;
+
+}
+
+
+
+.maintenance-button {
+
+    -fx-background-color: #F59E0B;
+
+}
+
+
+
+
+
+
+
+/* ==================================================
+   TABLE
+   ================================================== */
+
+
+.table-view {
+
+    -fx-background-color: white;
+
+    -fx-background-radius: 10;
+
+    -fx-border-radius: 10;
+
+    -fx-border-color: #E2E8F0;
+
+}
+
+
+
+
+.table-view .column-header-background {
+
+    -fx-background-color: #0F172A;
+
+}
+
+
+
+
+.table-view .column-header {
+
+    -fx-background-color: transparent;
+
+}
+
+
+
+
+.table-view .column-header .label {
+
+    -fx-text-fill: white;
+
+    -fx-font-weight: bold;
+
+}
+
+
+
+
+.table-row-cell {
+
+    -fx-cell-size: 38px;
+
+}
+
+
+
+/* Désactivation alternance */
+
+.table-row-cell:odd {
+
+    -fx-background-color: white;
+
+}
+
+
+
+
+.table-row-cell:hover {
+
+    -fx-opacity: 0.90;
+
+}
+
+
+
+
+
+
+
+/* ==================================================
+   VEHICLE STATUS COLORS
+   ================================================== */
+
+
+/* ===============================
+   AVAILABLE = GREEN
+   =============================== */
+
+
+.table-row-cell.available-row {
+
+    -fx-background-color: #DCFCE7;
+
+}
+
+
+
+.table-row-cell.available-row .text {
+
+    -fx-fill: #166534;
+
+}
+
+
+
+
+
+
+
+/* ===============================
+   RENTED = RED
+   =============================== */
+
+
+.table-row-cell.rented-row {
+
+    -fx-background-color: #FECACA;
+
+}
+
+
+
+.table-row-cell.rented-row .text {
+
+    -fx-fill: #991B1B;
+
+}
+
+
+
+
+
+
+
+/* ===============================
+   MAINTENANCE = YELLOW
+   =============================== */
+
+
+.table-row-cell.maintenance-row {
+
+    -fx-background-color: #FEF08A;
+
+}
+
+
+
+.table-row-cell.maintenance-row .text {
+
+    -fx-fill: #854D0E;
+
+}
+
+
+
+
+
+
+
+/* ==================================================
+   STATUS HOVER
+   ================================================== */
+
+
+.table-row-cell.available-row:hover {
+
+    -fx-background-color: #BBF7D0;
+
+}
+
+
+
+.table-row-cell.rented-row:hover {
+
+    -fx-background-color: #FCA5A5;
+
+}
+
+
+
+.table-row-cell.maintenance-row:hover {
+
+    -fx-background-color: #FDE047;
+
+}
+
+
+
+
+
+
+
+/* ==================================================
+   SELECTED ROW
+   ================================================== */
+
+
+.table-row-cell:selected {
+
+    -fx-background-color: #93C5FD;
+
+}
+
+
+
+.table-row-cell:selected .text {
+
+    -fx-fill: black;
+
+}
+
+
+
+
+
+
+
+/* ==================================================
+   SCROLLBAR
+   ================================================== */
+
+
+.scroll-bar {
+
+    -fx-background-color: transparent;
+
+}
+
+
+
+.scroll-bar .thumb {
+
+    -fx-background-color: #94A3B8;
+
+    -fx-background-radius: 10;
+
+}
+
+
+
+
+
+
+
+/* ==================================================
+   SIDEBAR FUTURE USE
+   ================================================== */
+
+
+.sidebar {
+
+    -fx-background-color: #1E293B;
+
+    -fx-padding: 20;
+
+}
+
+
+
+.sidebar .button {
+
+    -fx-background-color: transparent;
+
+}
+
+
+
+.sidebar .button:hover {
+
+    -fx-background-color: #334155;
+
+}
+
+
+
+
+
+
+
+/* ==================================================
+   STATUS BAR
+   ================================================== */
+
+
+.status-bar {
+
+    -fx-background-color: #0F172A;
+
+    -fx-padding: 8;
+
+}
+
+
+
+.status-bar .label {
+
+    -fx-text-fill: white;
+
+}

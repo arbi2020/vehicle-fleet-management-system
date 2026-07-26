@@ -1,124 +1,285 @@
 package service;
 
-import model.Vehicle;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import model.Vehicle;
+
 
 
 public class StatisticsManager {
 
 
-    // Calcul du kilométrage moyen
 
-    public double calculateAverageMileage(
+    // ===============================
+    // Total vehicles
+    // ===============================
+
+
+    public int getTotalVehicles(
             ArrayList<Vehicle> vehicles) {
 
 
-        if (vehicles.isEmpty()) {
-
-            return 0;
-
-        }
-
-
-        double totalMileage = 0;
-
-
-        for (Vehicle vehicle : vehicles) {
-
-            totalMileage += vehicle.getMileage();
-
-        }
-
-
-        return totalMileage / vehicles.size();
+        return vehicles.size();
 
     }
 
 
 
-    // Calcul du revenu total estimé
-
-    public double calculateTotalRevenue(
-            ArrayList<Vehicle> vehicles,
-            int days) {
-
-
-        double revenue = 0;
-
-
-        for (Vehicle vehicle : vehicles) {
-
-
-            revenue +=
-                    vehicle.calculateRentalCost(days);
-
-        }
-
-
-        return revenue;
-
-    }
 
 
 
-    // Nombre de véhicules par type
+    // ===============================
+    // Available vehicles
+    // ===============================
 
-    public HashMap<String, Integer> countByType(
+
+    public int getAvailableVehicles(
             ArrayList<Vehicle> vehicles) {
 
 
-        HashMap<String, Integer> statistics =
-                new HashMap<>();
-
-
-        for (Vehicle vehicle : vehicles) {
-
-
-            String type =
-                    vehicle.getVehicleType();
-
-
-            statistics.put(
-                    type,
-                    statistics.getOrDefault(type, 0) + 1
-            );
-
-        }
-
-
-        return statistics;
-
-    }
+        int count = 0;
 
 
 
-    // Véhicules nécessitant une maintenance
-
-    public ArrayList<Vehicle> vehiclesNeedingMaintenance(
-            ArrayList<Vehicle> vehicles) {
+        for(Vehicle vehicle : vehicles) {
 
 
-        ArrayList<Vehicle> result =
-                new ArrayList<>();
+            if(vehicle.isAvailable()) {
 
 
-        for (Vehicle vehicle : vehicles) {
-
-
-            if (vehicle.needsMaintenance()) {
-
-
-                result.add(vehicle);
+                count++;
 
             }
 
         }
 
 
-        return result;
+        return count;
 
     }
+
+
+
+
+
+
+
+    // ===============================
+    // Rented vehicles
+    // ===============================
+
+
+    public int getRentedVehicles(
+            ArrayList<Vehicle> vehicles) {
+
+
+        int count = 0;
+
+
+
+        for(Vehicle vehicle : vehicles) {
+
+
+            if(!vehicle.isAvailable()) {
+
+
+                count++;
+
+            }
+
+        }
+
+
+        return count;
+
+    }
+
+
+
+
+
+
+
+
+    // ===============================
+    // Average mileage
+    // ===============================
+
+
+    public double calculateAverageMileage(
+            ArrayList<Vehicle> vehicles) {
+
+
+
+        if(vehicles.isEmpty()) {
+
+
+            return 0;
+
+        }
+
+
+
+        double totalMileage = 0;
+
+
+
+        for(Vehicle vehicle : vehicles) {
+
+
+            totalMileage +=
+                    vehicle.getMileage();
+
+
+        }
+
+
+
+        return totalMileage / vehicles.size();
+
+
+    }
+
+
+
+
+
+
+
+    // ===============================
+    // Total estimated revenue
+    // ===============================
+
+
+    public double calculateTotalRevenue(
+            ArrayList<Vehicle> vehicles,
+            int days) {
+
+
+
+        double revenue = 0;
+
+
+
+        for(Vehicle vehicle : vehicles) {
+
+
+
+            revenue +=
+                    vehicle.calculateRentalCost(days);
+
+
+        }
+
+
+
+        return revenue;
+
+
+    }
+
+
+
+
+
+
+
+
+    // ===============================
+    // Count by type
+    // ===============================
+
+
+    public HashMap<String,Integer> countByType(
+            ArrayList<Vehicle> vehicles) {
+
+
+
+        HashMap<String,Integer> statistics =
+                new HashMap<>();
+
+
+
+
+        for(Vehicle vehicle : vehicles) {
+
+
+
+            String type =
+                    vehicle.getVehicleType();
+
+
+
+
+            statistics.put(
+
+                    type,
+
+                    statistics.getOrDefault(
+                            type,
+                            0
+                    ) + 1
+
+            );
+
+
+        }
+
+
+
+
+        return statistics;
+
+
+    }
+
+
+
+
+
+
+
+    // ===============================
+    // Maintenance vehicles
+    // ===============================
+
+
+    public ArrayList<Vehicle> vehiclesNeedingMaintenance(
+            ArrayList<Vehicle> vehicles) {
+
+
+
+        ArrayList<Vehicle> result =
+                new ArrayList<>();
+
+
+
+
+        for(Vehicle vehicle : vehicles) {
+
+
+
+            if(vehicle.needsMaintenance()) {
+
+
+
+                result.add(vehicle);
+
+
+            }
+
+
+        }
+
+
+
+
+        return result;
+
+
+    }
+
+
 
 }
