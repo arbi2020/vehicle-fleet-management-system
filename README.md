@@ -2,16 +2,19 @@
 
 ## 📋 Project Overview
 
-The **Vehicle Fleet Management System** is a Java application developed to manage a rental vehicle fleet.
+The **Vehicle Fleet Management System** is a Java 17 application designed to manage a rental vehicle fleet.
 
-The application allows users to:
+The application combines advanced **Object-Oriented Programming concepts** with a modern **JavaFX graphical interface** to provide an efficient fleet management solution.
 
-- Load vehicle data from a CSV file
+The system allows users to:
+
+- Load vehicle data from CSV files
 - Manage vehicle rentals and returns
-- Track vehicle maintenance operations
+- Track vehicle maintenance status
 - Generate fleet statistics
-- Create summary reports
-- Visualize fleet information through a JavaFX graphical interface
+- Produce fleet reports
+- Visualize and interact with vehicles through a professional graphical interface
+
 
 This project was developed as part of the **UA3 – Advanced Object-Oriented Programming** assignment.
 
@@ -19,22 +22,22 @@ This project was developed as part of the **UA3 – Advanced Object-Oriented Pro
 
 # 🎯 Objectives
 
-The main objective of this project is to apply advanced Object-Oriented Programming concepts.
+The main objective of this project is to apply advanced Java programming concepts:
 
-The application demonstrates:
-
+- Object-Oriented Programming (OOP)
 - Inheritance
 - Abstract classes
 - Interfaces
 - Polymorphism
-- Method overriding
 - Encapsulation
-- ArrayList collections
+- Method overriding
+- Collections (ArrayList)
 - Custom exceptions
-- CSV file reading and writing
-- TXT report generation
-- SOLID principles (SRP and OCP)
-- JavaFX graphical user interface
+- File management
+- CSV processing
+- Report generation
+- SOLID principles
+- JavaFX graphical interface development
 
 ---
 
@@ -74,7 +77,8 @@ UA3_Vehicle_Fleet_Management_System
 │   │   ├── VehicleNotAvailableException.java
 │   │   └── InvalidMileageException.java
 │   │
-│   └── utils
+│   └── resources
+│       └── style.css
 │
 ├── data
 │   └── vehicles.csv
@@ -93,22 +97,14 @@ UA3_Vehicle_Fleet_Management_System
 
 ## 🚗 Vehicle Management
 
-The system manages different types of vehicles:
+The system supports different vehicle types:
 
 - Car
 - SUV
 - Truck
 
-Each vehicle contains:
 
-- Vehicle ID
-- Brand
-- Model
-- Manufacturing year
-- Mileage
-- Availability status
-
-The vehicle hierarchy is based on inheritance:
+Vehicle hierarchy:
 
 ```text
               Vehicle
@@ -118,34 +114,48 @@ The vehicle hierarchy is based on inheritance:
      Car        SUV       Truck
 ```
 
+
+Each vehicle contains:
+
+- Vehicle ID
+- Vehicle type
+- Brand
+- Model
+- Manufacturing year
+- Mileage
+- Rental availability status
+
 ---
 
 # 🚘 Rental Management
 
-The rental module allows:
+The rental module provides:
 
-- Renting a vehicle
-- Returning a vehicle
-- Checking vehicle availability
-- Calculating rental costs
+- Rent a vehicle
+- Return a vehicle
+- Check vehicle availability
+- Calculate rental costs
 
-Rental cost calculation uses polymorphism.
 
-Each vehicle type provides its own implementation:
+Rental cost calculation uses polymorphism:
 
 ```java
 calculateRentalCost(int days)
 ```
 
+
+## Rental Rules
+
+- A rented vehicle cannot be rented again.
+- A vehicle requiring maintenance can still be rented.
+- Maintenance status is displayed independently from rental status.
+
 ---
 
 # 🛠 Maintenance Management
 
-The maintenance module provides:
+The application automatically detects vehicles requiring maintenance.
 
-- Detection of vehicles requiring maintenance
-- Maintenance reporting
-- Maintenance completion tracking
 
 Example rule:
 
@@ -157,23 +167,31 @@ Mileage > 50000 km
 Maintenance required
 ```
 
+
+Maintenance features:
+
+- Detect vehicles requiring maintenance
+- Display maintenance status
+- Generate maintenance statistics
+
 ---
 
 # 📂 CSV Data Management
 
-The application loads vehicle data from:
+Vehicle data is loaded from:
 
 ```text
 data/vehicles.csv
 ```
 
-CSV processing includes:
 
-- Reading vehicle information
-- Creating vehicle objects
-- Validating input data
-- Detecting invalid records
-- Handling custom exceptions
+The CSV module provides:
+
+- CSV file reading
+- Vehicle object creation
+- Data validation
+- Invalid record detection
+- Exception handling
 
 
 Example CSV format:
@@ -188,20 +206,85 @@ V002,SUV,BMW,X5,2021,35000,false,true
 V003,Truck,Ford,F150,2020,70000,true,2.5
 ```
 
-The CSV file contains invalid data to demonstrate error handling.
+---
+
+# 🖥 JavaFX Graphical Interface
+
+The project includes a professional JavaFX interface.
+
+## Main Features
+
+The graphical application provides:
+
+✅ Vehicle table visualization  
+✅ Dynamic search  
+✅ Vehicle rental  
+✅ Vehicle return  
+✅ Refresh function  
+✅ Vehicle details dialog  
+✅ Fleet dashboard  
+✅ Professional CSS theme  
+
 
 ---
 
-# 📊 Statistics
+# 🎨 Professional UI Theme
 
-The system generates fleet statistics:
+The interface uses a custom CSS theme with:
+
+- Modern colors
+- Styled buttons
+- Dashboard card design
+- Professional table
+- Status-based vehicle colors
+
+
+Vehicle status colors:
+
+
+| Status | Color |
+|---|---|
+| Available | 🟢 Green |
+| Rented | 🔴 Red |
+| Maintenance | 🟡 Yellow |
+
+
+Example:
+
+```text
+Toyota Corolla     🟢 Available
+
+Honda Civic        🔴 Rented
+
+BMW X5             🟡 Maintenance
+```
+
+---
+
+# 📊 Dashboard Statistics
+
+The dashboard displays:
 
 - Total number of vehicles
-- Average mileage
-- Estimated rental revenue
-- Number of vehicles by type
+- Available vehicles
+- Rented vehicles
 - Vehicles requiring maintenance
-- Fleet utilization information
+- Average mileage
+
+
+Example:
+
+```text
+Total Vehicles : 15
+
+Available : 10
+
+Rented : 3
+
+Maintenance : 2
+
+Average Mileage : 32450 km
+```
 
 ---
 
@@ -213,39 +296,24 @@ The application generates a TXT report:
 reports/fleet_report.txt
 ```
 
+
 The report contains:
 
 - Fleet summary
 - Vehicle statistics
-- Maintenance information
 - Rental information
+- Maintenance information
 
 ---
 
-# 🖥 JavaFX Graphical Interface
+# 🏗 Application Architecture
 
-The project includes a JavaFX graphical interface connected to the existing backend.
+The application follows a layered architecture:
 
-The graphical application provides:
-
-- Vehicle table visualization
-- CSV data loading
-- Display of vehicle information:
-
-  - ID
-  - Type
-  - Brand
-  - Model
-  - Year
-  - Mileage
-  - Availability
-
-
-The architecture follows a layered design:
 
 ```text
 +----------------------+
-| JavaFX Application   |
+| JavaFX Interface     |
 +----------------------+
            |
            v
@@ -255,17 +323,17 @@ The architecture follows a layered design:
            |
            v
 +----------------------+
-| FleetManager         |
+| Service Layer        |
 +----------------------+
            |
            v
 +----------------------+
-| CsvManager           |
+| Model Layer          |
 +----------------------+
            |
            v
 +----------------------+
-| vehicles.csv         |
+| CSV Data             |
 +----------------------+
 ```
 
@@ -277,6 +345,7 @@ The architecture follows a layered design:
 
 Each class has a specific responsibility:
 
+
 | Class | Responsibility |
 |---|---|
 | FleetManager | Manage fleet vehicles |
@@ -286,21 +355,22 @@ Each class has a specific responsibility:
 | StatisticsManager | Calculate statistics |
 | ReportManager | Generate reports |
 
+
 ---
 
 ## Open/Closed Principle (OCP)
 
-The application is designed to allow adding new vehicle types without modifying existing classes.
+The system allows adding new vehicle types without modifying existing classes.
+
 
 Example:
-
-Adding a motorcycle:
 
 ```java
 public class Motorcycle extends Vehicle
 ```
 
-The existing services continue to work without modification.
+
+Existing services continue working without modification.
 
 ---
 
@@ -308,24 +378,27 @@ The existing services continue to work without modification.
 
 - Java 17
 - JavaFX 17
-- Object-Oriented Programming (OOP)
+- CSS Styling
+- Object-Oriented Programming
 - ArrayList Collections
 - File I/O
 - CSV Processing
 - Exception Handling
-- Git & GitHub
+- Git
+- GitHub
 
 ---
 
-# ▶️ Compile Console Application
+# ▶️ Run Console Application
+
+Compile:
 
 ```bash
 javac -d bin src/interfaces/*.java src/model/*.java src/exceptions/*.java src/service/*.java src/app/Main.java
 ```
 
----
 
-# ▶️ Run Console Application
+Run:
 
 ```bash
 java -cp bin app.Main
@@ -337,11 +410,13 @@ java -cp bin app.Main
 
 JavaFX SDK 17 is required.
 
+
 Compile:
 
 ```bash
 javac --module-path PATH_TO_JAVAFX/lib --add-modules javafx.controls -d bin src/**/*.java
 ```
+
 
 Run:
 
@@ -351,47 +426,21 @@ java --module-path PATH_TO_JAVAFX/lib --add-modules javafx.controls -cp bin app.
 
 ---
 
-# 📊 Example Output
-
-```text
-===== VEHICLE FLEET MANAGEMENT SYSTEM =====
-
-Vehicles loaded : 14
-
-
-===== RENTAL MANAGEMENT =====
-
-Vehicle V001 rented successfully.
-
-Rental price : 250.0 $
-
-
-Vehicle V001 returned successfully.
-
-
-===== STATISTICS =====
-
-Average mileage : 32642.86 km
-
-Estimated revenue : 5450.0 $
-```
-
----
-
 # 📌 Future Improvements
 
-Possible future enhancements:
+Possible enhancements:
 
-- Dashboard statistics
-- Vehicle search functionality
-- Add / Edit / Delete vehicles
-- Complete rental interface
-- Maintenance interface
+- Add/Edit/Delete vehicle interface
 - Database integration
 - User authentication
+- Rental history tracking
+- PDF report export
+- Advanced dashboard charts
+- User roles management
+
 
 ---
 
 # 📜 License
 
-This project is provided for educational purposes.
+This project is developed for educational purposes.
