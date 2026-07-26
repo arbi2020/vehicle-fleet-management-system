@@ -98,4 +98,4 @@ V096,Truck,Chevrolet,Express,2020,43000,false,3.2
 V097,Car,Lexus,IS300,2023,6000,false,5
 V098,SUV,Infiniti,QX60,2022,17000,false,true
 V099,Truck,Fuso,Canter,2021,35000,true,5.0
-V100,Car,Tesla,ModelS,2024,2000,false,5
+V200,Car,Mazda,CX5,2025,0.0,true,4

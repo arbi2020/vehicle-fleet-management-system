@@ -167,7 +167,35 @@ public class VehicleController {
         fleetManager.addVehicle(vehicle);
 
 
+
+        try {
+
+
+            CsvManager csvManager =
+                new CsvManager();
+
+
+
+            csvManager.saveVehicle(
+                "data/vehicles.csv",
+                vehicle
+            );
+
+
+       }
+        catch(Exception e) {
+
+
+            System.out.println(
+                "Error saving vehicle : "
+                + e.getMessage()
+           );
+
+
     }
+
+
+}
 
 
 
