@@ -212,6 +212,16 @@ V003,Truck,Ford,F150,2020,70000,true,2.5
 
 The project includes a professional JavaFX interface.
 
+---
+
+# 📸 Application Screenshot
+
+The following screenshot shows the JavaFX graphical interface of the Vehicle Fleet Management System:
+
+![Vehicle Fleet Management System](screenshots/fleet_app.png)
+
+---
+
 ## Main Features
 
 The graphical application provides:
