@@ -13,25 +13,32 @@ import javafx.collections.ObservableList;
 
 import javafx.collections.transformation.FilteredList;
 
+
 import javafx.scene.Scene;
 
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 
+
 import javafx.scene.control.cell.PropertyValueFactory;
+
 
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+
 import javafx.geometry.Insets;
+
 
 import javafx.stage.Stage;
 
 
 import model.Vehicle;
+
 
 
 
@@ -45,7 +52,7 @@ public class FleetApplication extends Application {
 
 
         // ===============================
-        // Load vehicles from CSV
+        // Load vehicles
         // ===============================
 
 
@@ -56,7 +63,7 @@ public class FleetApplication extends Application {
 
 
         // ===============================
-        // Create TableView
+        // TableView
         // ===============================
 
 
@@ -66,8 +73,9 @@ public class FleetApplication extends Application {
 
 
 
+
         // ===============================
-        // Create Columns
+        // Columns
         // ===============================
 
 
@@ -81,6 +89,7 @@ public class FleetApplication extends Application {
 
 
 
+
         TableColumn<Vehicle, String> typeColumn =
                 new TableColumn<>("Type");
 
@@ -88,6 +97,7 @@ public class FleetApplication extends Application {
         typeColumn.setCellValueFactory(
                 new PropertyValueFactory<>("vehicleType")
         );
+
 
 
 
@@ -101,6 +111,7 @@ public class FleetApplication extends Application {
 
 
 
+
         TableColumn<Vehicle, String> modelColumn =
                 new TableColumn<>("Model");
 
@@ -108,6 +119,7 @@ public class FleetApplication extends Application {
         modelColumn.setCellValueFactory(
                 new PropertyValueFactory<>("model")
         );
+
 
 
 
@@ -121,6 +133,7 @@ public class FleetApplication extends Application {
 
 
 
+
         TableColumn<Vehicle, Double> mileageColumn =
                 new TableColumn<>("Mileage");
 
@@ -128,6 +141,7 @@ public class FleetApplication extends Application {
         mileageColumn.setCellValueFactory(
                 new PropertyValueFactory<>("mileage")
         );
+
 
 
 
@@ -141,34 +155,6 @@ public class FleetApplication extends Application {
 
 
 
-
-
-        // ===============================
-        // Column sizes
-        // ===============================
-
-
-        idColumn.setPrefWidth(80);
-
-        typeColumn.setPrefWidth(100);
-
-        brandColumn.setPrefWidth(120);
-
-        modelColumn.setPrefWidth(120);
-
-        yearColumn.setPrefWidth(80);
-
-        mileageColumn.setPrefWidth(120);
-
-        availableColumn.setPrefWidth(100);
-
-
-
-
-
-        // ===============================
-        // Add columns
-        // ===============================
 
 
         table.getColumns().addAll(
@@ -197,13 +183,6 @@ public class FleetApplication extends Application {
 
 
 
-
-
-        // ===============================
-        // Search Filter
-        // ===============================
-
-
         FilteredList<Vehicle> filteredData =
                 new FilteredList<>(
                         data,
@@ -217,12 +196,6 @@ public class FleetApplication extends Application {
 
 
 
-
-        // ===============================
-        // Table configuration
-        // ===============================
-
-
         table.setColumnResizePolicy(
                 TableView.CONSTRAINED_RESIZE_POLICY
         );
@@ -231,8 +204,9 @@ public class FleetApplication extends Application {
 
 
 
+
         // ===============================
-        // Header
+        // Title
         // ===============================
 
 
@@ -240,6 +214,7 @@ public class FleetApplication extends Application {
                 new Label(
                         "Vehicle Fleet Management System"
                 );
+
 
 
         title.setStyle(
@@ -252,8 +227,9 @@ public class FleetApplication extends Application {
 
 
 
+
         // ===============================
-        // Search field
+        // Search
         // ===============================
 
 
@@ -267,14 +243,13 @@ public class FleetApplication extends Application {
 
 
 
-
         searchField.textProperty()
                 .addListener(
 
                 (
-                 ObservableValue<? extends String> observable,
-                 String oldValue,
-                 String newValue
+                ObservableValue<? extends String> observable,
+                String oldValue,
+                String newValue
                 ) -> {
 
 
@@ -290,7 +265,9 @@ public class FleetApplication extends Application {
 
 
                                     return true;
+
                                 }
+
 
 
 
@@ -301,40 +278,39 @@ public class FleetApplication extends Application {
 
 
                                 return
-                                        vehicle.getId()
-                                        .toLowerCase()
-                                        .contains(keyword)
+
+                                vehicle.getId()
+                                .toLowerCase()
+                                .contains(keyword)
 
 
-                                        ||
+                                ||
+
+                                vehicle.getBrand()
+                                .toLowerCase()
+                                .contains(keyword)
 
 
-                                        vehicle.getBrand()
-                                        .toLowerCase()
-                                        .contains(keyword)
+                                ||
+
+                                vehicle.getModel()
+                                .toLowerCase()
+                                .contains(keyword)
 
 
-                                        ||
+                                ||
 
-
-                                        vehicle.getModel()
-                                        .toLowerCase()
-                                        .contains(keyword)
-
-
-                                        ||
-
-
-                                        vehicle.getVehicleType()
-                                        .toLowerCase()
-                                        .contains(keyword);
-
+                                vehicle.getVehicleType()
+                                .toLowerCase()
+                                .contains(keyword);
 
                             }
                     );
 
 
                 });
+
+
 
 
 
@@ -362,6 +338,130 @@ public class FleetApplication extends Application {
 
 
 
+
+
+
+        // ===============================
+        // Rent Action
+        // ===============================
+
+
+        rentButton.setOnAction(event -> {
+
+
+
+            Vehicle selectedVehicle =
+                    table.getSelectionModel()
+                    .getSelectedItem();
+
+
+
+
+            if(selectedVehicle != null) {
+
+
+
+                boolean result =
+                        controller.rentVehicle(
+                                selectedVehicle.getId()
+                        );
+
+
+
+                if(result) {
+
+
+                    table.refresh();
+
+
+                }
+
+
+            }
+            else {
+
+
+                showWarning(
+                        "Please select a vehicle first."
+                );
+
+
+            }
+
+
+
+        });
+
+
+
+
+
+
+
+
+        // ===============================
+        // Return Action
+        // ===============================
+
+
+        returnButton.setOnAction(event -> {
+
+
+
+            Vehicle selectedVehicle =
+                    table.getSelectionModel()
+                    .getSelectedItem();
+
+
+
+
+            if(selectedVehicle != null) {
+
+
+
+                boolean result =
+                        controller.returnVehicle(
+                                selectedVehicle.getId()
+                        );
+
+
+
+                if(result) {
+
+
+                    table.refresh();
+
+
+                }
+
+
+            }
+            else {
+
+
+                showWarning(
+                        "Please select a vehicle first."
+                );
+
+
+            }
+
+
+
+        });
+
+
+
+
+
+
+
+
+        // ===============================
+        // Menu
+        // ===============================
+
+
         HBox menu =
                 new HBox(
                         10,
@@ -369,6 +469,7 @@ public class FleetApplication extends Application {
                         rentButton,
                         returnButton
                 );
+
 
 
 
@@ -391,6 +492,7 @@ public class FleetApplication extends Application {
         root.setPadding(
                 new Insets(15)
         );
+
 
 
 
@@ -429,6 +531,44 @@ public class FleetApplication extends Application {
 
 
 
+
+
+    private void showWarning(String message) {
+
+
+
+        Alert alert =
+                new Alert(
+                        Alert.AlertType.WARNING
+                );
+
+
+
+        alert.setTitle(
+                "Warning"
+        );
+
+
+        alert.setHeaderText(null);
+
+
+        alert.setContentText(
+                message
+        );
+
+
+        alert.show();
+
+
+
+    }
+
+
+
+
+
+
+
     public static void main(String[] args) {
 
 
@@ -436,6 +576,7 @@ public class FleetApplication extends Application {
 
 
     }
+
 
 
 }
