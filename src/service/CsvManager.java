@@ -2,10 +2,9 @@ package service;
 
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import model.*;
 
@@ -15,12 +14,22 @@ public class CsvManager {
 
 
 
+
+    private final String FILE_PATH =
+            "data/vehicles.csv";
+
+
+
+
+
     // ===============================
-    // Load vehicles from CSV
+    // Load vehicles
     // ===============================
 
 
-    public ArrayList<Vehicle> loadVehicles(String filePath)
+    public ArrayList<Vehicle> loadVehicles(
+            String filePath
+    )
             throws Exception {
 
 
@@ -30,9 +39,13 @@ public class CsvManager {
 
 
 
+
         BufferedReader reader =
+
                 new BufferedReader(
+
                         new FileReader(filePath)
+
                 );
 
 
@@ -40,60 +53,22 @@ public class CsvManager {
         String line;
 
 
-        // Ignore header
+
+        // Skip header
+
         reader.readLine();
 
 
 
 
-        while ((line = reader.readLine()) != null) {
+
+        while(
+                (line = reader.readLine()) != null
+        ) {
 
 
 
-            String[] data =
-                    line.split(",");
-
-
-
-            String id =
-                    data[0];
-
-
-            String type =
-                    data[1];
-
-
-            String brand =
-                    data[2];
-
-
-            String model =
-                    data[3];
-
-
-
-            int year =
-                    Integer.parseInt(
-                            data[4]
-                    );
-
-
-
-            double mileage =
-                    Double.parseDouble(
-                            data[5]
-                    );
-
-
-
-            if(mileage < 0) {
-
-
-                System.out.println(
-                        "Invalid mileage for vehicle "
-                        + id
-                );
-
+            if(line.trim().isEmpty()) {
 
                 continue;
 
@@ -102,7 +77,67 @@ public class CsvManager {
 
 
 
+
+
+            String[] data =
+
+                    line.split(",");
+
+
+
+
+
+
+            String id =
+                    data[0];
+
+
+
+            String type =
+                    data[1];
+
+
+
+            String brand =
+                    data[2];
+
+
+
+            String model =
+                    data[3];
+
+
+
+            int year =
+
+                    Integer.parseInt(
+                            data[4]
+                    );
+
+
+
+            double mileage =
+
+                    Double.parseDouble(
+                            data[5]
+                    );
+
+
+
+
+            boolean rented =
+
+                    Boolean.parseBoolean(
+                            data[6]
+                    );
+
+
+
+
+
             Vehicle vehicle = null;
+
+
 
 
 
@@ -116,18 +151,26 @@ public class CsvManager {
 
                     vehicle =
                             new Car(
+
                                     id,
+
                                     brand,
+
                                     model,
+
                                     year,
+
                                     mileage,
+
                                     Integer.parseInt(
                                             data[7]
                                     )
+
                             );
 
 
                     break;
+
 
 
 
@@ -138,18 +181,27 @@ public class CsvManager {
 
                     vehicle =
                             new SUV(
+
                                     id,
+
                                     brand,
+
                                     model,
+
                                     year,
+
                                     mileage,
+
                                     Boolean.parseBoolean(
                                             data[7]
                                     )
+
                             );
 
 
                     break;
+
+
 
 
 
@@ -160,22 +212,29 @@ public class CsvManager {
 
                     vehicle =
                             new Truck(
+
                                     id,
+
                                     brand,
+
                                     model,
+
                                     year,
+
                                     mileage,
+
                                     Double.parseDouble(
                                             data[7]
                                     )
+
                             );
 
 
                     break;
 
 
-            }
 
+            }
 
 
 
@@ -184,7 +243,19 @@ public class CsvManager {
             if(vehicle != null) {
 
 
-                vehicles.add(vehicle);
+
+                // Restaurer état location
+
+
+                vehicle.setAvailable(
+                        !rented
+                );
+
+
+
+                vehicles.add(
+                        vehicle
+                );
 
 
             }
@@ -192,6 +263,7 @@ public class CsvManager {
 
 
         }
+
 
 
 
@@ -212,148 +284,141 @@ public class CsvManager {
 
 
     // ===============================
-    // Save one vehicle in CSV
+    // Save complete CSV
     // ===============================
 
 
-    public void saveVehicle(
+    public void saveAllVehicles(
             String filePath,
-            Vehicle vehicle
+            ArrayList<Vehicle> vehicles
     )
             throws Exception {
 
 
 
-        File file =
-                new File(filePath);
+        PrintWriter writer =
 
+                new PrintWriter(
 
+                        new FileWriter(
+                                filePath,
+                                false
+                        )
 
-
-        FileWriter fileWriter =
-                new FileWriter(
-                        file,
-                        true
-                );
-
-
-
-        BufferedWriter writer =
-                new BufferedWriter(
-                        fileWriter
                 );
 
 
 
 
 
-        // Add new line before new vehicle
-        // if file already contains data
-
-        if(file.length() > 0) {
+        // Header
 
 
-            writer.newLine();
+        writer.println(
 
-
-        }
-
-
-
-
-
-
-        String extra = "";
-
-
-
-
-
-        if(vehicle instanceof Car) {
-
-
-
-            Car car =
-                    (Car) vehicle;
-
-
-
-            extra =
-                    String.valueOf(
-                            car.getNumberOfDoors()
-                    );
-
-
-        }
-
-
-
-
-
-        else if(vehicle instanceof SUV) {
-
-
-
-            SUV suv =
-                    (SUV) vehicle;
-
-
-
-            extra =
-                    String.valueOf(
-                            suv.hasFourWheelDrive()
-                    );
-
-
-        }
-
-
-
-
-
-        else if(vehicle instanceof Truck) {
-
-
-
-            Truck truck =
-                    (Truck) vehicle;
-
-
-
-            extra =
-                    String.valueOf(
-                            truck.getLoadCapacity()
-                    );
-
-
-        }
-
-
-
-
-
-
-
-
-        writer.write(
-
-                vehicle.getId()
-                + ","
-                + vehicle.getVehicleType()
-                + ","
-                + vehicle.getBrand()
-                + ","
-                + vehicle.getModel()
-                + ","
-                + vehicle.getYear()
-                + ","
-                + vehicle.getMileage()
-                + ","
-                + vehicle.isAvailable()
-                + ","
-                + extra
+                "id,type,brand,model,year,mileage,rented,extra"
 
         );
+
+
+
+
+
+
+
+        for(Vehicle vehicle : vehicles) {
+
+
+
+            String extra = "";
+
+
+
+
+
+            if(vehicle instanceof Car) {
+
+
+                Car car =
+                        (Car) vehicle;
+
+
+                extra =
+                        String.valueOf(
+                                car.getNumberOfDoors()
+                        );
+
+
+
+            }
+
+
+
+
+            else if(vehicle instanceof SUV) {
+
+
+                SUV suv =
+                        (SUV) vehicle;
+
+
+                extra =
+                        String.valueOf(
+                                suv.hasFourWheelDrive()
+                        );
+
+
+
+            }
+
+
+
+
+
+            else if(vehicle instanceof Truck) {
+
+
+                Truck truck =
+                        (Truck) vehicle;
+
+
+                extra =
+                        String.valueOf(
+                                truck.getLoadCapacity()
+                        );
+
+            }
+
+
+
+
+
+
+
+
+            writer.println(
+
+                    vehicle.getId()
+                    + ","
+                    + vehicle.getVehicleType()
+                    + ","
+                    + vehicle.getBrand()
+                    + ","
+                    + vehicle.getModel()
+                    + ","
+                    + vehicle.getYear()
+                    + ","
+                    + vehicle.getMileage()
+                    + ","
+                    + !vehicle.isAvailable()
+                    + ","
+                    + extra
+
+            );
+
+
+
+        }
 
 
 
@@ -363,6 +428,37 @@ public class CsvManager {
 
 
     }
+
+
+
+
+
+
+
+    // ===============================
+    // Update rental status
+    // ===============================
+
+
+    public void updateVehicleStatus(
+            String filePath,
+            ArrayList<Vehicle> vehicles
+    )
+            throws Exception {
+
+
+
+        saveAllVehicles(
+
+                filePath,
+
+                vehicles
+
+        );
+
+
+    }
+
 
 
 
