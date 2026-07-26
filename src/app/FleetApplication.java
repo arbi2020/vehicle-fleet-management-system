@@ -55,7 +55,7 @@ public class FleetApplication extends Application {
 
 
         // ===============================
-        // Load vehicles from CSV
+        // Load vehicles
         // ===============================
 
 
@@ -79,7 +79,7 @@ public class FleetApplication extends Application {
 
 
         // ===============================
-        // Create Columns
+        // Columns
         // ===============================
 
 
@@ -95,6 +95,7 @@ public class FleetApplication extends Application {
 
 
 
+
         TableColumn<Vehicle, String> typeColumn =
                 new TableColumn<>("Type");
 
@@ -102,6 +103,7 @@ public class FleetApplication extends Application {
         typeColumn.setCellValueFactory(
                 new PropertyValueFactory<>("vehicleType")
         );
+
 
 
 
@@ -117,6 +119,7 @@ public class FleetApplication extends Application {
 
 
 
+
         TableColumn<Vehicle, String> modelColumn =
                 new TableColumn<>("Model");
 
@@ -124,6 +127,7 @@ public class FleetApplication extends Application {
         modelColumn.setCellValueFactory(
                 new PropertyValueFactory<>("model")
         );
+
 
 
 
@@ -139,6 +143,7 @@ public class FleetApplication extends Application {
 
 
 
+
         TableColumn<Vehicle, Double> mileageColumn =
                 new TableColumn<>("Mileage");
 
@@ -146,6 +151,7 @@ public class FleetApplication extends Application {
         mileageColumn.setCellValueFactory(
                 new PropertyValueFactory<>("mileage")
         );
+
 
 
 
@@ -163,20 +169,26 @@ public class FleetApplication extends Application {
 
 
 
-        // ===============================
-        // Add columns
-        // ===============================
-
 
         table.getColumns().addAll(
+
                 idColumn,
+
                 typeColumn,
+
                 brandColumn,
+
                 modelColumn,
+
                 yearColumn,
+
                 mileageColumn,
+
                 availableColumn
+
         );
+
+
 
 
 
@@ -189,8 +201,11 @@ public class FleetApplication extends Application {
 
 
         ObservableList<Vehicle> data =
+
                 FXCollections.observableArrayList(
+
                         controller.getVehicles()
+
                 );
 
 
@@ -198,10 +213,16 @@ public class FleetApplication extends Application {
 
 
         FilteredList<Vehicle> filteredData =
+
                 new FilteredList<>(
+
                         data,
+
                         vehicle -> true
+
                 );
+
+
 
 
 
@@ -212,10 +233,10 @@ public class FleetApplication extends Application {
 
 
         table.setColumnResizePolicy(
+
                 TableView.CONSTRAINED_RESIZE_POLICY
+
         );
-
-
 
 
 
@@ -227,25 +248,25 @@ public class FleetApplication extends Application {
 
 
         Label title =
+
                 new Label(
+
                         "Vehicle Fleet Management System"
+
                 );
 
 
+
         title.setStyle(
+
                 "-fx-font-size:22px;"
                 +
                 "-fx-font-weight:bold;"
+
         );
 
-
-
-
-
-
-
-        // ===============================
-        // Search
+                // ===============================
+        // Search field
         // ===============================
 
 
@@ -256,7 +277,6 @@ public class FleetApplication extends Application {
         searchField.setPromptText(
                 "Search vehicle..."
         );
-
 
 
 
@@ -297,34 +317,42 @@ public class FleetApplication extends Application {
                                 return
 
                                 vehicle.getId()
-                                .toLowerCase()
-                                .contains(keyword)
+                                        .toLowerCase()
+                                        .contains(keyword)
 
 
                                 ||
 
                                 vehicle.getBrand()
-                                .toLowerCase()
-                                .contains(keyword)
+                                        .toLowerCase()
+                                        .contains(keyword)
 
 
                                 ||
 
                                 vehicle.getModel()
-                                .toLowerCase()
-                                .contains(keyword)
+                                        .toLowerCase()
+                                        .contains(keyword)
 
 
                                 ||
 
                                 vehicle.getVehicleType()
-                                .toLowerCase()
-                                .contains(keyword);
+                                        .toLowerCase()
+                                        .contains(keyword);
 
                             }
                     );
 
+
+
                 });
+
+
+
+
+
+
         // ===============================
         // Buttons
         // ===============================
@@ -353,12 +381,124 @@ public class FleetApplication extends Application {
 
 
 
+
+        // ===============================
+        // Rent Action
+        // ===============================
+
+
+        rentButton.setOnAction(event -> {
+
+
+
+            Vehicle selectedVehicle =
+
+                    table.getSelectionModel()
+                            .getSelectedItem();
+
+
+
+
+            if(selectedVehicle != null) {
+
+
+
+                controller.rentVehicle(
+
+                        selectedVehicle.getId()
+
+                );
+
+
+
+                table.refresh();
+
+
+
+            }
+            else {
+
+
+
+                showWarning(
+
+                        "Please select a vehicle first."
+
+                );
+
+            }
+
+
+        });
+
+
+
+
+
+
+
+        // ===============================
+        // Return Action
+        // ===============================
+
+
+        returnButton.setOnAction(event -> {
+
+
+
+            Vehicle selectedVehicle =
+
+                    table.getSelectionModel()
+                            .getSelectedItem();
+
+
+
+
+            if(selectedVehicle != null) {
+
+
+
+                controller.returnVehicle(
+
+                        selectedVehicle.getId()
+
+                );
+
+
+
+                table.refresh();
+
+
+
+            }
+            else {
+
+
+
+                showWarning(
+
+                        "Please select a vehicle first."
+
+                );
+
+            }
+
+
+        });
+
+
+
+
+
+
+
         // ===============================
         // Add Vehicle Action
         // ===============================
 
 
         addButton.setOnAction(event -> {
+
 
 
             Stage addStage =
@@ -386,14 +526,16 @@ public class FleetApplication extends Application {
             TextField idField =
                     new TextField();
 
+
             idField.setPromptText(
-                    "Vehicle ID"
+                    "ID"
             );
 
 
 
             TextField brandField =
                     new TextField();
+
 
             brandField.setPromptText(
                     "Brand"
@@ -404,6 +546,7 @@ public class FleetApplication extends Application {
             TextField modelField =
                     new TextField();
 
+
             modelField.setPromptText(
                     "Model"
             );
@@ -413,6 +556,7 @@ public class FleetApplication extends Application {
             TextField yearField =
                     new TextField();
 
+
             yearField.setPromptText(
                     "Year"
             );
@@ -421,6 +565,7 @@ public class FleetApplication extends Application {
 
             TextField mileageField =
                     new TextField();
+
 
             mileageField.setPromptText(
                     "Mileage"
@@ -462,16 +607,15 @@ public class FleetApplication extends Application {
 
 
 
-
-
-
             saveButton.setOnAction(e -> {
 
 
                 try {
 
 
+
                     Vehicle vehicle = null;
+
 
 
 
@@ -505,13 +649,11 @@ public class FleetApplication extends Application {
 
 
 
-
                     switch(typeBox.getValue()) {
 
 
 
                         case "Car":
-
 
                             vehicle =
                                     new Car(
@@ -525,15 +667,12 @@ public class FleetApplication extends Application {
                                             )
                                     );
 
-
                             break;
 
 
 
 
-
                         case "SUV":
-
 
                             vehicle =
                                     new SUV(
@@ -547,15 +686,12 @@ public class FleetApplication extends Application {
                                             )
                                     );
 
-
                             break;
 
 
 
 
-
                         case "Truck":
-
 
                             vehicle =
                                     new Truck(
@@ -569,11 +705,9 @@ public class FleetApplication extends Application {
                                             )
                                     );
 
-
                             break;
 
                     }
-
 
 
 
@@ -607,9 +741,7 @@ public class FleetApplication extends Application {
                             "Invalid vehicle information"
                     );
 
-
                 }
-
 
 
             });
@@ -617,33 +749,23 @@ public class FleetApplication extends Application {
 
 
 
-
-
-
             form.getChildren().addAll(
 
                     idField,
-
                     brandField,
-
                     modelField,
-
                     yearField,
-
                     mileageField,
-
                     typeBox,
-
                     extraField,
-
                     saveButton
 
             );
 
 
 
-
             Scene addScene =
+
                     new Scene(
                             form,
                             350,
@@ -664,46 +786,36 @@ public class FleetApplication extends Application {
         });
 
 
-
-
-
-
-
-        // ===============================
-        // Rent Vehicle Action
+                // ===============================
+        // Double click vehicle details
         // ===============================
 
 
-        rentButton.setOnAction(event -> {
+        table.setOnMouseClicked(event -> {
 
 
 
-            Vehicle selectedVehicle =
-                    table.getSelectionModel()
-                            .getSelectedItem();
+            if(event.getClickCount() == 2) {
 
 
 
-            if(selectedVehicle != null) {
+                Vehicle selectedVehicle =
+
+                        table.getSelectionModel()
+                                .getSelectedItem();
 
 
 
-                controller.rentVehicle(
-                        selectedVehicle.getId()
-                );
+
+                if(selectedVehicle != null) {
 
 
-                table.refresh();
+                    showVehicleDetails(
+                            selectedVehicle
+                    );
 
 
-
-            }
-            else {
-
-
-                showWarning(
-                        "Please select a vehicle first."
-                );
+                }
 
 
             }
@@ -719,93 +831,56 @@ public class FleetApplication extends Application {
 
 
         // ===============================
-        // Return Vehicle Action
-        // ===============================
-
-
-        returnButton.setOnAction(event -> {
-
-
-
-            Vehicle selectedVehicle =
-                    table.getSelectionModel()
-                            .getSelectedItem();
-
-
-
-            if(selectedVehicle != null) {
-
-
-
-                controller.returnVehicle(
-                        selectedVehicle.getId()
-                );
-
-
-                table.refresh();
-
-
-
-            }
-            else {
-
-
-                showWarning(
-                        "Please select a vehicle first."
-                );
-
-
-            }
-
-
-
-        });
-
-
-
-
-
-
-
-        // ===============================
-        // Menu
+        // Menu layout
         // ===============================
 
 
         HBox menu =
+
                 new HBox(
+
                         10,
+
                         searchField,
+
                         addButton,
+
                         rentButton,
+
                         returnButton
+
                 );
 
 
 
 
 
-
-
         // ===============================
-        // Layout
+        // Main layout
         // ===============================
 
 
         VBox root =
+
                 new VBox(
+
                         15,
+
                         title,
+
                         menu,
+
                         table
+
                 );
 
 
 
         root.setPadding(
-                new Insets(15)
-        );
 
+                new Insets(15)
+
+        );
 
 
 
@@ -818,10 +893,15 @@ public class FleetApplication extends Application {
 
 
         Scene scene =
+
                 new Scene(
+
                         root,
+
                         1000,
+
                         600
+
                 );
 
 
@@ -829,13 +909,19 @@ public class FleetApplication extends Application {
 
 
         stage.setTitle(
+
                 "Vehicle Fleet Management System"
+
         );
+
 
 
         stage.setScene(
+
                 scene
+
         );
+
 
 
         stage.show();
@@ -851,34 +937,318 @@ public class FleetApplication extends Application {
 
 
     // ===============================
-    // Warning Dialog
+    // Vehicle details window
     // ===============================
 
 
-    private void showWarning(String message) {
+    private void showVehicleDetails(
+            Vehicle vehicle
+    ) {
+
+
+
+        Stage detailsStage =
+
+                new Stage();
+
+
+
+
+        detailsStage.setTitle(
+
+                "Vehicle Details"
+
+        );
+
+
+
+
+
+        VBox details =
+
+                new VBox(
+
+                        10
+
+                );
+
+
+
+        details.setPadding(
+
+                new Insets(15)
+
+        );
+
+
+
+
+
+
+        Label idLabel =
+
+                new Label(
+
+                        "ID: "
+                        + vehicle.getId()
+
+                );
+
+
+
+        Label typeLabel =
+
+                new Label(
+
+                        "Type: "
+                        + vehicle.getVehicleType()
+
+                );
+
+
+
+        Label brandLabel =
+
+                new Label(
+
+                        "Brand: "
+                        + vehicle.getBrand()
+
+                );
+
+
+
+        Label modelLabel =
+
+                new Label(
+
+                        "Model: "
+                        + vehicle.getModel()
+
+                );
+
+
+
+        Label yearLabel =
+
+                new Label(
+
+                        "Year: "
+                        + vehicle.getYear()
+
+                );
+
+
+
+        Label mileageLabel =
+
+                new Label(
+
+                        "Mileage: "
+                        + vehicle.getMileage()
+                        + " km"
+
+                );
+
+
+
+        Label availableLabel =
+
+                new Label(
+
+                        "Available: "
+                        + vehicle.isAvailable()
+
+                );
+
+
+
+
+
+
+        Label rentalLabel =
+
+                new Label(
+
+                        "Rental cost (1 day): "
+                        +
+                        vehicle.calculateRentalCost(1)
+                        +
+                        " $"
+
+                );
+
+
+
+
+
+
+        String maintenanceText;
+
+
+
+        if(vehicle.needsMaintenance()) {
+
+
+            maintenanceText =
+                    "Maintenance required";
+
+
+        }
+        else {
+
+
+            maintenanceText =
+                    "No maintenance required";
+
+
+        }
+
+
+
+
+        Label maintenanceLabel =
+
+                new Label(
+
+                        "Maintenance: "
+                        +
+                        maintenanceText
+
+                );
+
+
+
+
+
+        Button closeButton =
+
+                new Button(
+
+                        "Close"
+
+                );
+
+
+
+
+        closeButton.setOnAction(e ->
+
+                detailsStage.close()
+
+        );
+
+
+
+
+
+        details.getChildren().addAll(
+
+                idLabel,
+
+                typeLabel,
+
+                brandLabel,
+
+                modelLabel,
+
+                yearLabel,
+
+                mileageLabel,
+
+                availableLabel,
+
+                rentalLabel,
+
+                maintenanceLabel,
+
+                closeButton
+
+        );
+
+
+
+
+
+        Scene detailsScene =
+
+                new Scene(
+
+                        details,
+
+                        350,
+
+                        350
+
+                );
+
+
+
+
+
+        detailsStage.setScene(
+
+                detailsScene
+
+        );
+
+
+
+        detailsStage.show();
+
+
+
+    }
+
+
+
+
+
+
+
+    // ===============================
+    // Warning dialog
+    // ===============================
+
+
+    private void showWarning(
+            String message
+    ) {
 
 
 
         Alert alert =
+
                 new Alert(
+
                         Alert.AlertType.WARNING
+
                 );
 
 
 
         alert.setTitle(
+
                 "Warning"
+
         );
+
 
 
         alert.setHeaderText(
+
                 null
+
         );
+
 
 
         alert.setContentText(
+
                 message
+
         );
+
 
 
         alert.show();
@@ -886,7 +1256,6 @@ public class FleetApplication extends Application {
 
 
     }
-
 
 
 
