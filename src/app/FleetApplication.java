@@ -3,6 +3,8 @@ package app;
 
 import controller.VehicleController;
 
+import service.StatisticsManager;
+
 
 import javafx.application.Application;
 
@@ -64,15 +66,23 @@ public class FleetApplication extends Application {
 
 
 
+        StatisticsManager statisticsManager =
+                new StatisticsManager();
+
+
+
+
 
 
         // ===============================
-        // Create TableView
+        // TableView
         // ===============================
 
 
         TableView<Vehicle> table =
                 new TableView<>();
+
+
 
 
 
@@ -88,6 +98,7 @@ public class FleetApplication extends Application {
                 new TableColumn<>("ID");
 
 
+
         idColumn.setCellValueFactory(
                 new PropertyValueFactory<>("id")
         );
@@ -96,8 +107,10 @@ public class FleetApplication extends Application {
 
 
 
+
         TableColumn<Vehicle, String> typeColumn =
                 new TableColumn<>("Type");
+
 
 
         typeColumn.setCellValueFactory(
@@ -108,8 +121,11 @@ public class FleetApplication extends Application {
 
 
 
+
+
         TableColumn<Vehicle, String> brandColumn =
                 new TableColumn<>("Brand");
+
 
 
         brandColumn.setCellValueFactory(
@@ -120,8 +136,11 @@ public class FleetApplication extends Application {
 
 
 
+
+
         TableColumn<Vehicle, String> modelColumn =
                 new TableColumn<>("Model");
+
 
 
         modelColumn.setCellValueFactory(
@@ -132,8 +151,11 @@ public class FleetApplication extends Application {
 
 
 
+
+
         TableColumn<Vehicle, Integer> yearColumn =
                 new TableColumn<>("Year");
+
 
 
         yearColumn.setCellValueFactory(
@@ -144,8 +166,11 @@ public class FleetApplication extends Application {
 
 
 
+
+
         TableColumn<Vehicle, Double> mileageColumn =
                 new TableColumn<>("Mileage");
+
 
 
         mileageColumn.setCellValueFactory(
@@ -156,13 +181,17 @@ public class FleetApplication extends Application {
 
 
 
+
+
         TableColumn<Vehicle, Boolean> availableColumn =
                 new TableColumn<>("Available");
+
 
 
         availableColumn.setCellValueFactory(
                 new PropertyValueFactory<>("available")
         );
+
 
 
 
@@ -194,9 +223,8 @@ public class FleetApplication extends Application {
 
 
 
-
         // ===============================
-        // Load data
+        // Data loading
         // ===============================
 
 
@@ -225,7 +253,6 @@ public class FleetApplication extends Application {
 
 
 
-
         table.setItems(filteredData);
 
 
@@ -237,6 +264,9 @@ public class FleetApplication extends Application {
                 TableView.CONSTRAINED_RESIZE_POLICY
 
         );
+
+
+
 
 
 
@@ -265,6 +295,108 @@ public class FleetApplication extends Application {
 
         );
 
+
+
+
+
+
+
+
+        // ===============================
+        // Dashboard
+        // ===============================
+
+
+        int totalVehicles =
+
+                statisticsManager.getTotalVehicles(
+
+                        controller.getVehicles()
+
+                );
+
+
+
+        int availableVehicles =
+
+                statisticsManager.getAvailableVehicles(
+
+                        controller.getVehicles()
+
+                );
+
+
+
+        int rentedVehicles =
+
+                statisticsManager.getRentedVehicles(
+
+                        controller.getVehicles()
+
+                );
+
+
+
+        int maintenanceVehicles =
+
+                statisticsManager
+                        .vehiclesNeedingMaintenance(
+
+                                controller.getVehicles()
+
+                        )
+                        .size();
+
+
+
+
+        double averageMileage =
+
+                statisticsManager.calculateAverageMileage(
+
+                        controller.getVehicles()
+
+                );
+
+
+
+
+
+        Label dashboard =
+
+                new Label(
+
+                        "Total Vehicles: "
+                        + totalVehicles
+
+                        + " | Available: "
+                        + availableVehicles
+
+                        + " | Rented: "
+                        + rentedVehicles
+
+                        + " | Maintenance: "
+                        + maintenanceVehicles
+
+                        + "\nAverage Mileage: "
+                        + String.format(
+                                "%.2f",
+                                averageMileage
+                          )
+                        + " km"
+
+                );
+
+
+
+        dashboard.setStyle(
+
+                "-fx-font-size:14px;"
+                +
+                "-fx-padding:10px;"
+
+        );
+
                 // ===============================
         // Search field
         // ===============================
@@ -280,6 +412,7 @@ public class FleetApplication extends Application {
 
 
 
+
         searchField.textProperty()
                 .addListener(
 
@@ -292,12 +425,12 @@ public class FleetApplication extends Application {
 
 
                     filteredData.setPredicate(
+
                             vehicle -> {
 
 
 
-                                if(newValue == null
-                                        ||
+                                if(newValue == null ||
                                    newValue.isEmpty()) {
 
 
@@ -314,11 +447,13 @@ public class FleetApplication extends Application {
 
 
 
+
                                 return
 
                                 vehicle.getId()
                                         .toLowerCase()
                                         .contains(keyword)
+
 
 
                                 ||
@@ -328,11 +463,13 @@ public class FleetApplication extends Application {
                                         .contains(keyword)
 
 
+
                                 ||
 
                                 vehicle.getModel()
                                         .toLowerCase()
                                         .contains(keyword)
+
 
 
                                 ||
@@ -341,12 +478,17 @@ public class FleetApplication extends Application {
                                         .toLowerCase()
                                         .contains(keyword);
 
+
+
                             }
+
                     );
 
 
 
                 });
+
+
 
 
 
@@ -382,8 +524,9 @@ public class FleetApplication extends Application {
 
 
 
+
         // ===============================
-        // Rent Action
+        // Rent vehicle
         // ===============================
 
 
@@ -415,16 +558,17 @@ public class FleetApplication extends Application {
 
 
 
+
             }
             else {
 
 
-
                 showWarning(
 
-                        "Please select a vehicle first."
+                        "Please select a vehicle first"
 
                 );
+
 
             }
 
@@ -438,7 +582,7 @@ public class FleetApplication extends Application {
 
 
         // ===============================
-        // Return Action
+        // Return vehicle
         // ===============================
 
 
@@ -470,16 +614,17 @@ public class FleetApplication extends Application {
 
 
 
+
             }
             else {
 
 
-
                 showWarning(
 
-                        "Please select a vehicle first."
+                        "Please select a vehicle first"
 
                 );
+
 
             }
 
@@ -492,8 +637,11 @@ public class FleetApplication extends Application {
 
 
 
+
+
+
         // ===============================
-        // Add Vehicle Action
+        // Add Vehicle
         // ===============================
 
 
@@ -523,13 +671,17 @@ public class FleetApplication extends Application {
 
 
 
+
+
             TextField idField =
                     new TextField();
 
 
             idField.setPromptText(
-                    "ID"
+                    "Vehicle ID"
             );
+
+
 
 
 
@@ -543,6 +695,8 @@ public class FleetApplication extends Application {
 
 
 
+
+
             TextField modelField =
                     new TextField();
 
@@ -550,6 +704,8 @@ public class FleetApplication extends Application {
             modelField.setPromptText(
                     "Model"
             );
+
+
 
 
 
@@ -563,6 +719,8 @@ public class FleetApplication extends Application {
 
 
 
+
+
             TextField mileageField =
                     new TextField();
 
@@ -573,15 +731,21 @@ public class FleetApplication extends Application {
 
 
 
+
+
             ComboBox<String> typeBox =
                     new ComboBox<>();
 
 
+
             typeBox.getItems().addAll(
+
                     "Car",
                     "SUV",
                     "Truck"
+
             );
+
 
 
             typeBox.setValue(
@@ -590,13 +754,19 @@ public class FleetApplication extends Application {
 
 
 
+
+
             TextField extraField =
                     new TextField();
 
 
             extraField.setPromptText(
+
                     "Doors / 4WD / Capacity"
+
             );
+
+
 
 
 
@@ -607,7 +777,12 @@ public class FleetApplication extends Application {
 
 
 
+
+
+
+
             saveButton.setOnAction(e -> {
+
 
 
                 try {
@@ -649,14 +824,17 @@ public class FleetApplication extends Application {
 
 
 
+
                     switch(typeBox.getValue()) {
 
 
 
                         case "Car":
 
+
                             vehicle =
                                     new Car(
+
                                             id,
                                             brand,
                                             model,
@@ -665,17 +843,23 @@ public class FleetApplication extends Application {
                                             Integer.parseInt(
                                                     extraField.getText()
                                             )
+
                                     );
+
 
                             break;
 
 
 
 
+
+
                         case "SUV":
+
 
                             vehicle =
                                     new SUV(
+
                                             id,
                                             brand,
                                             model,
@@ -684,17 +868,23 @@ public class FleetApplication extends Application {
                                             Boolean.parseBoolean(
                                                     extraField.getText()
                                             )
+
                                     );
+
 
                             break;
 
 
 
 
+
+
                         case "Truck":
+
 
                             vehicle =
                                     new Truck(
+
                                             id,
                                             brand,
                                             model,
@@ -703,11 +893,16 @@ public class FleetApplication extends Application {
                                             Double.parseDouble(
                                                     extraField.getText()
                                             )
+
                                     );
+
 
                             break;
 
+
                     }
+
+
 
 
 
@@ -718,9 +913,11 @@ public class FleetApplication extends Application {
 
 
 
+
                     data.add(
                             vehicle
                     );
+
 
 
 
@@ -738,10 +935,14 @@ public class FleetApplication extends Application {
 
 
                     showWarning(
+
                             "Invalid vehicle information"
+
                     );
 
+
                 }
+
 
 
             });
@@ -749,28 +950,46 @@ public class FleetApplication extends Application {
 
 
 
+
+
+
             form.getChildren().addAll(
 
                     idField,
+
                     brandField,
+
                     modelField,
+
                     yearField,
+
                     mileageField,
+
                     typeBox,
+
                     extraField,
+
                     saveButton
 
             );
 
 
 
+
+
+
             Scene addScene =
 
                     new Scene(
+
                             form,
+
                             350,
+
                             450
+
                     );
+
 
 
 
@@ -784,6 +1003,7 @@ public class FleetApplication extends Application {
 
 
         });
+
 
 
                 // ===============================
@@ -855,6 +1075,8 @@ public class FleetApplication extends Application {
 
 
 
+
+
         // ===============================
         // Main layout
         // ===============================
@@ -867,6 +1089,8 @@ public class FleetApplication extends Application {
                         15,
 
                         title,
+
+                        dashboard,
 
                         menu,
 
@@ -881,6 +1105,7 @@ public class FleetApplication extends Application {
                 new Insets(15)
 
         );
+
 
 
 
@@ -936,6 +1161,7 @@ public class FleetApplication extends Application {
 
 
 
+
     // ===============================
     // Vehicle details window
     // ===============================
@@ -964,13 +1190,10 @@ public class FleetApplication extends Application {
 
 
 
+
         VBox details =
 
-                new VBox(
-
-                        10
-
-                );
+                new VBox(10);
 
 
 
@@ -979,6 +1202,7 @@ public class FleetApplication extends Application {
                 new Insets(15)
 
         );
+
 
 
 
@@ -996,6 +1220,7 @@ public class FleetApplication extends Application {
 
 
 
+
         Label typeLabel =
 
                 new Label(
@@ -1004,6 +1229,7 @@ public class FleetApplication extends Application {
                         + vehicle.getVehicleType()
 
                 );
+
 
 
 
@@ -1018,6 +1244,7 @@ public class FleetApplication extends Application {
 
 
 
+
         Label modelLabel =
 
                 new Label(
@@ -1026,6 +1253,7 @@ public class FleetApplication extends Application {
                         + vehicle.getModel()
 
                 );
+
 
 
 
@@ -1040,6 +1268,7 @@ public class FleetApplication extends Application {
 
 
 
+
         Label mileageLabel =
 
                 new Label(
@@ -1049,6 +1278,7 @@ public class FleetApplication extends Application {
                         + " km"
 
                 );
+
 
 
 
@@ -1066,11 +1296,12 @@ public class FleetApplication extends Application {
 
 
 
+
         Label rentalLabel =
 
                 new Label(
 
-                        "Rental cost (1 day): "
+                        "Rental cost/day: "
                         +
                         vehicle.calculateRentalCost(1)
                         +
@@ -1083,26 +1314,34 @@ public class FleetApplication extends Application {
 
 
 
-        String maintenanceText;
+
+
+        String maintenance;
 
 
 
         if(vehicle.needsMaintenance()) {
 
 
-            maintenanceText =
+
+            maintenance =
                     "Maintenance required";
+
 
 
         }
         else {
 
 
-            maintenanceText =
+
+            maintenance =
                     "No maintenance required";
 
 
+
         }
+
+
 
 
 
@@ -1113,9 +1352,11 @@ public class FleetApplication extends Application {
 
                         "Maintenance: "
                         +
-                        maintenanceText
+                        maintenance
 
                 );
+
+
 
 
 
@@ -1132,11 +1373,14 @@ public class FleetApplication extends Application {
 
 
 
+
         closeButton.setOnAction(e ->
 
                 detailsStage.close()
 
         );
+
+
 
 
 
@@ -1170,6 +1414,8 @@ public class FleetApplication extends Application {
 
 
 
+
+
         Scene detailsScene =
 
                 new Scene(
@@ -1181,6 +1427,8 @@ public class FleetApplication extends Application {
                         350
 
                 );
+
+
 
 
 
@@ -1206,8 +1454,9 @@ public class FleetApplication extends Application {
 
 
 
+
     // ===============================
-    // Warning dialog
+    // Warning message
     // ===============================
 
 
@@ -1263,10 +1512,13 @@ public class FleetApplication extends Application {
 
 
 
+
     public static void main(String[] args) {
 
 
+
         launch(args);
+
 
 
     }
