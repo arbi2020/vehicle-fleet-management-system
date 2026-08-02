@@ -1,6 +1,6 @@
 package app;
 
-
+import javafx.scene.control.TextInputDialog;
 import controller.VehicleController;
 import service.StatisticsManager;
 import model.Vehicle;
@@ -430,7 +430,13 @@ public class FleetApplication extends Application {
                 new TextField();
 
 
+        TextField daysField = new TextField();
 
+        daysField.setPromptText(
+                "Days"
+        );
+
+        daysField.setPrefWidth(80);
         searchField.setPromptText(
 
                 "Search vehicle..."
@@ -662,9 +668,36 @@ public class FleetApplication extends Application {
 
 
 
+        int days;
 
 
-            int days = 5;
+        try {
+                days = Integer.parseInt(
+                        daysField.getText()
+          );
+
+
+                if(days <= 0) {
+                        
+                        showWarning(
+                        "Number of days must be positive"
+                );
+
+                       return;
+                }
+
+
+        }
+        
+        catch(NumberFormatException e) {
+                showWarning(
+            "Please enter a valid number of days"
+        );
+
+                return;
+
+       }
+
 
 
         controller.rentVehicle(
@@ -672,10 +705,7 @@ public class FleetApplication extends Application {
 
                 days
 
-      );  
-
-
-
+        ); 
 
 
             table.refresh();
@@ -872,6 +902,8 @@ public class FleetApplication extends Application {
                         25,
 
                         searchField,
+
+                        daysField,
 
                         rentButton,
 

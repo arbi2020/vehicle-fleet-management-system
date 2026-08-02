@@ -1,5 +1,5 @@
 id,type,brand,model,year,mileage,rented,extra
-V001,Car,Toyota,Corolla,2022,15000.0,false,4
+V001,Car,Toyota,Corolla,2022,15000.0,true,4
 V002,Car,Honda,Civic,2021,22000.0,true,4
 V003,SUV,BMW,X5,2020,45000.0,true,true
 V004,SUV,Audi,Q7,2022,18000.0,true,true
@@ -36,7 +36,7 @@ V034,Car,Renault,Clio,2023,7000.0,false,5
 V035,SUV,Renault,Kadjar,2020,42000.0,false,true
 V036,Truck,Mitsubishi,L200,2022,16000.0,false,3.0
 V037,Car,Skoda,Octavia,2021,25000.0,true,5
-V038,SUV,Skoda,Kodiaq,2023,11000.0,false,true
+V038,SUV,Skoda,Kodiaq,2023,11000.0,true,true
 V039,Truck,Volkswagen,Amarok,2021,28000.0,false,3.2
 V040,Car,Seat,Leon,2020,34000.0,false,5
 V041,SUV,Seat,Ateca,2022,15000.0,false,true
