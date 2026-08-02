@@ -1,71 +1,317 @@
 package service;
 
+
 import java.io.FileWriter;
-import java.io.IOException;
+import java.io.PrintWriter;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Map;
 import model.Vehicle;
+
+
 
 public class ReportManager {
 
+
     public void generateReport(
+
             ArrayList<Vehicle> vehicles,
+
             StatisticsManager statisticsManager,
-            String filePath) {
 
-        try (FileWriter writer = new FileWriter(filePath)) {
+            String filePath
 
-            writer.write("========== VEHICLE FLEET REPORT ==========\n\n");
+    ) {
 
-            writer.write("Total vehicles : "
-                    + vehicles.size() + "\n");
 
-            writer.write("Average mileage : "
-                    + String.format("%.2f",
-                    statisticsManager.calculateAverageMileage(vehicles))
-                    + " km\n");
 
-            writer.write("Total generated revenue (5 days) : "
-                    + String.format("%.2f",
-                    statisticsManager.calculateTotalRevenue(vehicles))
-                    + " $\n\n");
+        try {
 
-            writer.write("Vehicles by type\n");
-            writer.write("----------------\n");
 
-            for (Map.Entry<String, Integer> entry :
-                    statisticsManager.countByType(vehicles).entrySet()) {
+            PrintWriter writer =
+                    new PrintWriter(
+                            new FileWriter(filePath)
+                    );
 
-                writer.write(entry.getKey()
-                        + " : "
-                        + entry.getValue()
-                        + "\n");
-            }
 
-            writer.write("\nVehicles requiring maintenance\n");
-            writer.write("------------------------------\n");
 
-            for (Vehicle vehicle :
-                    statisticsManager.vehiclesNeedingMaintenance(vehicles)) {
+            // ===============================
+            // HEADER
+            // ===============================
 
-                writer.write(vehicle.getId()
+
+            writer.println(
+                    "======================================"
+            );
+
+            writer.println(
+                    " VEHICLE FLEET MANAGEMENT REPORT"
+            );
+
+            writer.println(
+                    "======================================"
+            );
+
+
+            writer.println();
+
+
+
+            String date =
+                    LocalDateTime.now()
+                    .format(
+                            DateTimeFormatter.ofPattern(
+                                    "yyyy-MM-dd HH:mm:ss"
+                            )
+                    );
+
+
+
+            writer.println(
+                    "Generated date : "
+                    + date
+            );
+
+
+
+            writer.println();
+
+
+
+
+
+            // ===============================
+            // GENERAL STATISTICS
+            // ===============================
+
+
+            writer.println(
+                    "========== GENERAL STATISTICS =========="
+            );
+
+
+            writer.println(
+                    "Total vehicles : "
+                    + statisticsManager.getTotalVehicles(
+                            vehicles
+                    )
+            );
+
+
+            writer.println(
+                    "Available vehicles : "
+                    + statisticsManager.getAvailableVehicles(
+                            vehicles
+                    )
+            );
+
+
+
+            writer.println(
+                    "Rented vehicles : "
+                    + statisticsManager.getRentedVehicles(
+                            vehicles
+                    )
+            );
+
+
+
+            writer.println(
+                    "Average mileage : "
+                    + statisticsManager.calculateAverageMileage(
+                            vehicles
+                    )
+                    + " km"
+            );
+
+
+
+            writer.println(
+                    "Total revenue : "
+                    + statisticsManager.calculateTotalRevenue(
+                            vehicles
+                    )
+                    + " $"
+            );
+
+
+
+            writer.println();
+
+
+
+
+
+            // ===============================
+            // VEHICLES BY TYPE
+            // ===============================
+
+
+            writer.println(
+                    "========== VEHICLES BY TYPE =========="
+            );
+
+
+            writer.println(
+
+                    statisticsManager.countByType(
+                            vehicles
+                    )
+
+            );
+
+
+
+            writer.println();
+
+
+
+
+
+            // ===============================
+            // MOST RENTED VEHICLE
+            // ===============================
+
+
+            writer.println(
+                    "========== MOST RENTED VEHICLE =========="
+            );
+
+
+
+            Vehicle mostUsed =
+                    statisticsManager.getMostRentedVehicle(
+                            vehicles
+                    );
+
+
+
+            if(mostUsed != null) {
+
+
+                writer.println(
+
+                        mostUsed.getId()
                         + " - "
-                        + vehicle.getBrand()
+                        + mostUsed.getBrand()
                         + " "
-                        + vehicle.getModel()
-                        + "\n");
+                        + mostUsed.getModel()
+                        + " | Rentals : "
+                        + mostUsed.getRentalCount()
+
+                );
+
+
+            }
+            else {
+
+
+                writer.println(
+                        "No rental history available."
+                );
+
+
             }
 
-            writer.write("\nReport generated successfully.\n");
+
+
+            writer.println();
+
+
+
+
+
+
+            // ===============================
+            // MAINTENANCE
+            // ===============================
+
+
+            writer.println(
+                    "========== MAINTENANCE REQUIRED =========="
+            );
+
+
+
+            ArrayList<Vehicle> maintenanceList =
+                    statisticsManager
+                    .vehiclesNeedingMaintenance(
+                            vehicles
+                    );
+
+
+
+            if(maintenanceList.isEmpty()) {
+
+
+                writer.println(
+                        "No vehicle requires maintenance."
+                );
+
+
+            }
+            else {
+
+
+                for(Vehicle vehicle :
+                        maintenanceList) {
+
+
+                    writer.println(
+                            vehicle
+                    );
+
+
+                }
+
+
+            }
+
+
+
+            writer.println();
+
+
+            writer.println(
+                    "======================================"
+            );
+
+
+            writer.println(
+                    "END OF REPORT"
+            );
+
+
+            writer.println(
+                    "======================================"
+            );
+
+
+
+            writer.close();
+
+
 
             System.out.println(
-                    "Report generated : " + filePath);
+                    "Report generated successfully."
+            );
 
-        } catch (IOException e) {
 
-            System.out.println(
-                    "Error generating report : "
-                    + e.getMessage());
+
         }
+        catch(Exception e) {
+
+
+            System.out.println(
+                    "Report generation error : "
+                    + e.getMessage()
+            );
+
+
+        }
+
+
     }
+
+
 }

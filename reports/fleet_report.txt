@@ -1,29 +1,37 @@
-========== VEHICLE FLEET REPORT ==========
+======================================
+ VEHICLE FLEET MANAGEMENT REPORT
+======================================
 
+Generated date : 2026-08-02 18:27:33
+
+========== GENERAL STATISTICS ==========
 Total vehicles : 100
-Average mileage : 26955.00 km
-Total generated revenue (5 days) : 250.00 $
+Available vehicles : 84
+Rented vehicles : 16
+Average mileage : 26955.0 km
+Total revenue : 350.0 $
 
-Vehicles by type
-----------------
-Car : 34
-SUV : 33
-Truck : 33
+========== VEHICLES BY TYPE ==========
+{Car=34, SUV=33, Truck=33}
 
-Vehicles requiring maintenance
-------------------------------
-V005 - Ford F150
-V009 - Chevrolet Silverado
-V018 - GMC Sierra
-V027 - Nissan Frontier
-V030 - Toyota Hilux
-V031 - Peugeot 308
-V042 - Fiat Fullback
-V045 - Dodge RAM2500
-V054 - RAM 2500
-V061 - Nissan Altima
-V063 - Ford SuperDuty
-V066 - Chevrolet Avalanche
-V081 - Isuzu NPR
+========== MOST RENTED VEHICLE ==========
+V001 - Toyota Corolla | Rentals : 2
 
-Report generated successfully.
+========== MAINTENANCE REQUIRED ==========
+ID: V005, Type: Truck, Brand: Ford, Model: F150, Year: 2019, Mileage: 65000.0, Available: true, Load Capacity: 2.5 tons
+ID: V009, Type: Truck, Brand: Chevrolet, Model: Silverado, Year: 2018, Mileage: 90000.0, Available: false, Load Capacity: 4.0 tons
+ID: V018, Type: Truck, Brand: GMC, Model: Sierra, Year: 2020, Mileage: 58000.0, Available: true, Load Capacity: 3.5 tons
+ID: V027, Type: Truck, Brand: Nissan, Model: Frontier, Year: 2019, Mileage: 70000.0, Available: true, Load Capacity: 2.5 tons
+ID: V030, Type: Truck, Brand: Toyota, Model: Hilux, Year: 2020, Mileage: 56000.0, Available: true, Load Capacity: 3.0 tons
+ID: V031, Type: Car, Brand: Peugeot, Model: 308, Year: 2019, Mileage: 61000.0, Available: true, Doors: 5
+ID: V042, Type: Truck, Brand: Fiat, Model: Fullback, Year: 2019, Mileage: 64000.0, Available: true, Load Capacity: 2.4 tons
+ID: V045, Type: Truck, Brand: Dodge, Model: RAM2500, Year: 2020, Mileage: 51000.0, Available: true, Load Capacity: 4.5 tons
+ID: V054, Type: Truck, Brand: RAM, Model: 2500, Year: 2019, Mileage: 73000.0, Available: true, Load Capacity: 4.0 tons
+ID: V061, Type: Car, Brand: Nissan, Model: Altima, Year: 2019, Mileage: 58000.0, Available: false, Doors: 5
+ID: V063, Type: Truck, Brand: Ford, Model: SuperDuty, Year: 2018, Mileage: 88000.0, Available: true, Load Capacity: 5.0 tons
+ID: V066, Type: Truck, Brand: Chevrolet, Model: Avalanche, Year: 2019, Mileage: 67000.0, Available: false, Load Capacity: 4.2 tons
+ID: V081, Type: Truck, Brand: Isuzu, Model: NPR, Year: 2019, Mileage: 92000.0, Available: true, Load Capacity: 7.0 tons
+
+======================================
+END OF REPORT
+======================================

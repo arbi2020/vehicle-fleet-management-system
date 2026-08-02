@@ -110,6 +110,7 @@ public class Main {
 
 
 
+
         // ===============================
         // RENT FIRST VEHICLE
         // ===============================
@@ -161,6 +162,42 @@ public class Main {
 
 
 
+                // Second rental for statistics test
+
+                rentalManager.rentVehicle(
+                        vehicle1,
+                        2
+                );
+
+
+
+                double secondPrice =
+                        rentalManager.calculateRentalCost(
+                                vehicle1,
+                                2
+                        );
+
+
+
+                System.out.println(
+
+                        vehicle1.getBrand()
+                        + " "
+                        + vehicle1.getModel()
+                        + " rented again for 2 days : "
+                        + secondPrice
+                        + "$"
+
+                );
+
+
+
+                rentalManager.returnVehicle(
+                        vehicle1
+                );
+
+
+
             }
             catch(VehicleNotAvailableException e) {
 
@@ -174,6 +211,7 @@ public class Main {
 
 
         }
+
 
 
 
@@ -246,13 +284,7 @@ public class Main {
 
         }
 
-
-
-
-
-
-
-        // ===============================
+                // ===============================
         // MAINTENANCE MANAGEMENT
         // ===============================
 
@@ -319,6 +351,7 @@ public class Main {
 
         StatisticsManager statisticsManager =
                 new StatisticsManager();
+
 
 
 
@@ -392,6 +425,12 @@ public class Main {
 
 
 
+
+        // ===============================
+        // MOST RENTED VEHICLE
+        // ===============================
+
+
         Vehicle mostUsed =
                 statisticsManager.getMostRentedVehicle(
                         fleetManager.getVehicles()
@@ -410,6 +449,9 @@ public class Main {
                     + mostUsed.getBrand()
                     + " "
                     + mostUsed.getModel()
+                    + " ("
+                    + mostUsed.getRentalCount()
+                    + " rentals)"
 
             );
 
@@ -420,6 +462,10 @@ public class Main {
 
 
 
+
+        // ===============================
+        // VEHICLES NEEDING MAINTENANCE
+        // ===============================
 
 
         System.out.println(
@@ -440,6 +486,7 @@ public class Main {
 
 
         }
+
 
 
 
