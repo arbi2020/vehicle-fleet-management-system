@@ -1,14 +1,14 @@
 ========== VEHICLE FLEET REPORT ==========
 
-Total vehicles : 99
-Average mileage : 27252.53 km
-Estimated revenue (5 days) : 40900.00 $
+Total vehicles : 100
+Average mileage : 26955.00 km
+Total generated revenue (5 days) : 250.00 $
 
 Vehicles by type
 ----------------
 Car : 34
 SUV : 33
-Truck : 32
+Truck : 33
 
 Vehicles requiring maintenance
 ------------------------------

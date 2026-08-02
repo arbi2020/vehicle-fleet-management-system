@@ -143,47 +143,29 @@ public class StatisticsManager {
 
 
 
-
-
-
-
     // ===============================
-    // Total estimated revenue
+    // Total generated revenue
     // ===============================
-
 
     public double calculateTotalRevenue(
-            ArrayList<Vehicle> vehicles,
-            int days) {
-
+            ArrayList<Vehicle> vehicles) {
 
 
         double revenue = 0;
 
 
-
         for(Vehicle vehicle : vehicles) {
 
 
-
-            revenue +=
-                    vehicle.calculateRentalCost(days);
+            revenue += vehicle.getTotalRevenue();
 
 
         }
 
 
-
         return revenue;
 
-
     }
-
-
-
-
-
-
 
 
     // ===============================
@@ -277,6 +259,41 @@ public class StatisticsManager {
 
         return result;
 
+
+    }
+
+
+    // ===============================
+    // Most rented vehicle
+    // ===============================
+
+    public Vehicle getMostRentedVehicle(
+           ArrayList<Vehicle> vehicles) {
+
+
+        if(vehicles.isEmpty()) {
+
+            return null;
+
+        }
+
+
+        Vehicle best = vehicles.get(0);
+
+
+        for(Vehicle vehicle : vehicles) {
+
+
+            if(vehicle.getRentalCount() >
+                best.getRentalCount()) {
+                    best = vehicle;
+
+                }
+
+       }
+
+
+        return best;
 
     }
 

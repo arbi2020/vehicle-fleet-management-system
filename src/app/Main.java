@@ -1,5 +1,6 @@
 package app;
 
+
 import exceptions.VehicleNotAvailableException;
 import java.util.ArrayList;
 import model.Vehicle;
@@ -9,6 +10,8 @@ import service.MaintenanceManager;
 import service.RentalManager;
 import service.ReportManager;
 import service.StatisticsManager;
+
+
 
 public class Main {
 
@@ -21,8 +24,9 @@ public class Main {
         );
 
 
+
         // ===============================
-        // Load vehicles from CSV
+        // LOAD VEHICLES FROM CSV
         // ===============================
 
 
@@ -44,9 +48,11 @@ public class Main {
                     );
 
 
+
             fleetManager.loadFleet(
                     vehicles
             );
+
 
 
             System.out.println(
@@ -61,7 +67,7 @@ public class Main {
 
 
         }
-        catch (Exception e) {
+        catch(Exception e) {
 
 
             System.out.println(
@@ -69,12 +75,14 @@ public class Main {
                     + e.getMessage()
             );
 
+
         }
 
 
 
+
         // ===============================
-        // Rental management
+        // RENTAL MANAGEMENT
         // ===============================
 
 
@@ -83,62 +91,169 @@ public class Main {
         );
 
 
+
         RentalManager rentalManager =
                 new RentalManager();
 
 
 
-        Vehicle vehicle =
+
+        Vehicle vehicle1 =
                 fleetManager.findVehicleById("V001");
 
 
 
-        if (vehicle != null) {
+        Vehicle vehicle2 =
+                fleetManager.findVehicleById("V002");
+
+
+
+
+
+        // ===============================
+        // RENT FIRST VEHICLE
+        // ===============================
+
+
+        if(vehicle1 != null) {
 
 
             try {
 
 
+                int days = 5;
+
+
+
                 rentalManager.rentVehicle(
-                        vehicle
+                        vehicle1,
+                        days
                 );
+
 
 
                 double price =
                         rentalManager.calculateRentalCost(
-                                vehicle,
-                                5
+                                vehicle1,
+                                days
                         );
 
 
+
                 System.out.println(
-                        "Rental price : "
+
+                        vehicle1.getBrand()
+                        + " "
+                        + vehicle1.getModel()
+                        + " rented for "
+                        + days
+                        + " days : "
                         + price
                         + "$"
+
                 );
+
 
 
                 rentalManager.returnVehicle(
-                        vehicle
+                        vehicle1
                 );
 
 
+
             }
-            catch (VehicleNotAvailableException e) {
+            catch(VehicleNotAvailableException e) {
 
 
                 System.out.println(
                         e.getMessage()
                 );
 
+
             }
+
 
         }
 
 
 
+
+
+
+
         // ===============================
-        // Maintenance management
+        // RENT SECOND VEHICLE
+        // ===============================
+
+
+        if(vehicle2 != null) {
+
+
+            try {
+
+
+                int days = 3;
+
+
+
+                rentalManager.rentVehicle(
+                        vehicle2,
+                        days
+                );
+
+
+
+                double price =
+                        rentalManager.calculateRentalCost(
+                                vehicle2,
+                                days
+                        );
+
+
+
+                System.out.println(
+
+                        vehicle2.getBrand()
+                        + " "
+                        + vehicle2.getModel()
+                        + " rented for "
+                        + days
+                        + " days : "
+                        + price
+                        + "$"
+
+                );
+
+
+
+                rentalManager.returnVehicle(
+                        vehicle2
+                );
+
+
+
+            }
+            catch(VehicleNotAvailableException e) {
+
+
+                System.out.println(
+                        e.getMessage()
+                );
+
+
+            }
+
+
+        }
+
+
+
+
+
+
+
+        // ===============================
+        // MAINTENANCE MANAGEMENT
         // ===============================
 
 
@@ -147,80 +262,225 @@ public class Main {
         );
 
 
+
         MaintenanceManager maintenanceManager =
                 new MaintenanceManager();
 
 
 
-        for (Vehicle v :
+
+        for(Vehicle vehicle :
                 fleetManager.getVehicles()) {
 
 
-            if (v.needsMaintenance()) {
+
+            if(vehicle.needsMaintenance()) {
 
 
                 maintenanceManager.reportMaintenance(
-                        v
+                        vehicle
                 );
+
 
             }
 
+
         }
+
 
 
         maintenanceManager.displayMaintenanceList();
 
 
+
         System.out.println(
+
                 "Vehicles requiring maintenance : "
                 + maintenanceManager.getMaintenanceCount()
+
         );
 
-        System.out.println("\n===== STATISTICS =====");
-
-
-        StatisticsManager statisticsManager = new StatisticsManager();
-
-
-        System.out.println("Average mileage : " + statisticsManager.calculateAverageMileage(
-                fleetManager.getVehicles()));
 
 
 
-        System.out.println("Estimated revenue : "+ statisticsManager.calculateTotalRevenue(
-                fleetManager.getVehicles(),5));
 
 
 
-        System.out.println("Vehicles by type : " + statisticsManager.countByType(
-                fleetManager.getVehicles()));
-
-
-
-        System.out.println("Vehicles needing maintenance : ");
-
-
-
-        for (Vehicle v : statisticsManager.vehiclesNeedingMaintenance(
-                fleetManager.getVehicles())) { 
-                        System.out.println(v);
-                }   
-                
-        
         // ===============================
-        // Report generation
+        // STATISTICS
         // ===============================
 
-        System.out.println("\n===== REPORT GENERATION =====");
 
-        ReportManager reportManager = new ReportManager();
+        System.out.println(
+                "\n===== STATISTICS ====="
+        );
 
-        reportManager.generateReport(
-                fleetManager.getVehicles(),
-                statisticsManager,
-                "reports/fleet_report.txt"
+
+
+        StatisticsManager statisticsManager =
+                new StatisticsManager();
+
+
+
+
+        System.out.println(
+
+                "Total vehicles : "
+                + statisticsManager.getTotalVehicles(
+                        fleetManager.getVehicles()
+                )
+
+        );
+
+
+
+        System.out.println(
+
+                "Available vehicles : "
+                + statisticsManager.getAvailableVehicles(
+                        fleetManager.getVehicles()
+                )
+
+        );
+
+
+
+        System.out.println(
+
+                "Rented vehicles : "
+                + statisticsManager.getRentedVehicles(
+                        fleetManager.getVehicles()
+                )
+
+        );
+
+
+
+        System.out.println(
+
+                "Average mileage : "
+                + statisticsManager.calculateAverageMileage(
+                        fleetManager.getVehicles()
+                )
+
+        );
+
+
+
+        System.out.println(
+
+                "Total revenue : "
+                + statisticsManager.calculateTotalRevenue(
+                        fleetManager.getVehicles()
+                )
+                + "$"
+
+        );
+
+
+
+        System.out.println(
+
+                "Vehicles by type : "
+                + statisticsManager.countByType(
+                        fleetManager.getVehicles()
+                )
+
+        );
+
+
+
+
+
+        Vehicle mostUsed =
+                statisticsManager.getMostRentedVehicle(
+                        fleetManager.getVehicles()
                 );
 
-   }
+
+
+        if(mostUsed != null) {
+
+
+            System.out.println(
+
+                    "Most rented vehicle : "
+                    + mostUsed.getId()
+                    + " - "
+                    + mostUsed.getBrand()
+                    + " "
+                    + mostUsed.getModel()
+
+            );
+
+
+        }
+
+
+
+
+
+
+
+        System.out.println(
+                "\nVehicles needing maintenance :"
+        );
+
+
+
+        for(Vehicle vehicle :
+                statisticsManager.vehiclesNeedingMaintenance(
+                        fleetManager.getVehicles()
+                )) {
+
+
+            System.out.println(
+                    vehicle
+            );
+
+
+        }
+
+
+
+
+
+
+
+        // ===============================
+        // REPORT GENERATION
+        // ===============================
+
+
+        System.out.println(
+                "\n===== REPORT GENERATION ====="
+        );
+
+
+
+        ReportManager reportManager =
+                new ReportManager();
+
+
+
+
+        reportManager.generateReport(
+
+                fleetManager.getVehicles(),
+
+                statisticsManager,
+
+                "reports/fleet_report.txt"
+
+        );
+
+
+
+        System.out.println(
+                "Application finished successfully."
+        );
+
+
+    }
 
 }

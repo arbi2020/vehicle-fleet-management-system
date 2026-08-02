@@ -1,11 +1,10 @@
 package service;
 
-import model.Vehicle;
-
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
+import model.Vehicle;
 
 public class ReportManager {
 
@@ -26,9 +25,9 @@ public class ReportManager {
                     statisticsManager.calculateAverageMileage(vehicles))
                     + " km\n");
 
-            writer.write("Estimated revenue (5 days) : "
+            writer.write("Total generated revenue (5 days) : "
                     + String.format("%.2f",
-                    statisticsManager.calculateTotalRevenue(vehicles, 5))
+                    statisticsManager.calculateTotalRevenue(vehicles))
                     + " $\n\n");
 
             writer.write("Vehicles by type\n");

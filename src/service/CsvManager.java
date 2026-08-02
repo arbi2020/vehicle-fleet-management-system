@@ -12,14 +12,8 @@ import model.*;
 
 public class CsvManager {
 
-
-
-
     private final String FILE_PATH =
             "data/vehicles.csv";
-
-
-
 
 
     // ===============================
@@ -33,11 +27,8 @@ public class CsvManager {
             throws Exception {
 
 
-
         ArrayList<Vehicle> vehicles =
                 new ArrayList<>();
-
-
 
 
         BufferedReader reader =
@@ -49,9 +40,7 @@ public class CsvManager {
                 );
 
 
-
         String line;
-
 
 
         // Skip header
@@ -59,14 +48,9 @@ public class CsvManager {
         reader.readLine();
 
 
-
-
-
         while(
                 (line = reader.readLine()) != null
         ) {
-
-
 
             if(line.trim().isEmpty()) {
 
@@ -75,17 +59,9 @@ public class CsvManager {
             }
 
 
-
-
-
-
             String[] data =
 
                     line.split(",");
-
-
-
-
 
 
             String id =
@@ -133,17 +109,10 @@ public class CsvManager {
 
 
 
-
-
             Vehicle vehicle = null;
 
 
-
-
-
-
             switch(type) {
-
 
 
                 case "Car":
@@ -172,10 +141,6 @@ public class CsvManager {
                     break;
 
 
-
-
-
-
                 case "SUV":
 
 
@@ -200,11 +165,6 @@ public class CsvManager {
 
 
                     break;
-
-
-
-
-
 
 
                 case "Truck":
@@ -237,9 +197,6 @@ public class CsvManager {
             }
 
 
-
-
-
             if(vehicle != null) {
 
 
@@ -265,22 +222,13 @@ public class CsvManager {
         }
 
 
-
-
         reader.close();
-
 
 
         return vehicles;
 
 
-
     }
-
-
-
-
-
 
 
     // ===============================
@@ -293,7 +241,6 @@ public class CsvManager {
             ArrayList<Vehicle> vehicles
     )
             throws Exception {
-
 
 
         PrintWriter writer =
@@ -309,8 +256,6 @@ public class CsvManager {
 
 
 
-
-
         // Header
 
 
@@ -321,19 +266,11 @@ public class CsvManager {
         );
 
 
-
-
-
-
-
         for(Vehicle vehicle : vehicles) {
 
 
 
             String extra = "";
-
-
-
 
 
             if(vehicle instanceof Car) {
@@ -348,11 +285,7 @@ public class CsvManager {
                                 car.getNumberOfDoors()
                         );
 
-
-
             }
-
-
 
 
             else if(vehicle instanceof SUV) {
@@ -372,9 +305,6 @@ public class CsvManager {
             }
 
 
-
-
-
             else if(vehicle instanceof Truck) {
 
 
@@ -388,12 +318,6 @@ public class CsvManager {
                         );
 
             }
-
-
-
-
-
-
 
 
             writer.println(
@@ -421,19 +345,11 @@ public class CsvManager {
         }
 
 
-
-
         writer.close();
 
 
 
     }
-
-
-
-
-
-
 
     // ===============================
     // Update rental status

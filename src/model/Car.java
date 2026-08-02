@@ -4,7 +4,6 @@ public class Car extends Vehicle {
 
     private int numberOfDoors;
 
-
     public Car(String id,
                String brand,
                String model,

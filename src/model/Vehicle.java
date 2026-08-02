@@ -1,15 +1,9 @@
 package model;
 
-
 import interfaces.Maintainable;
 import interfaces.Rentable;
 
-
-
-public abstract class Vehicle 
-        implements Rentable, Maintainable {
-
-
+public abstract class Vehicle implements Rentable, Maintainable {
 
     protected String id;
     protected String brand;
@@ -18,8 +12,9 @@ public abstract class Vehicle
     protected double mileage;
     protected boolean available;
 
-
-
+    // Rental statistics
+    private int rentalCount;
+    private double totalRevenue;
 
     public Vehicle(
             String id,
@@ -35,16 +30,11 @@ public abstract class Vehicle
         this.model = model;
         this.year = year;
         this.mileage = mileage;
-
-        // disponible par défaut
         this.available = true;
+        this.rentalCount = 0;
+        this.totalRevenue = 0.0;
 
     }
-
-
-
-
-
 
 
     public String getId() {
@@ -54,13 +44,11 @@ public abstract class Vehicle
     }
 
 
-
     public String getBrand() {
 
         return brand;
 
     }
-
 
 
     public String getModel() {
@@ -70,13 +58,11 @@ public abstract class Vehicle
     }
 
 
-
     public int getYear() {
 
         return year;
 
     }
-
 
 
     public double getMileage() {
@@ -86,19 +72,19 @@ public abstract class Vehicle
     }
 
 
-
-
-
     public boolean isAvailable() {
 
         return available;
 
     }
 
+    public int getRentalCount() {
+        return rentalCount;
+    }
 
-
-
-
+    public double getTotalRevenue() {
+        return totalRevenue;
+    }
 
     // ===============================
     // Location
@@ -108,65 +94,33 @@ public abstract class Vehicle
     @Override
     public void rent() {
 
-
         available = false;
 
-
     }
-
-
-
 
 
     @Override
     public void returnVehicle() {
 
-
         available = true;
 
-
     }
-
-
-
-
 
     // ===============================
     // Restaurer état depuis CSV
     // ===============================
 
-
-    public void setAvailable(
-            boolean available
-    ) {
-
+    public void setAvailable(boolean available) {
 
         this.available = available;
 
-
     }
 
-
-
-
-
-
-
-    public void addMileage(
-            double distance
-    ) {
-
+    public void addMileage(double distance) {
 
         mileage += distance;
 
-
     }
-
-
-
-
-
-
 
     // ===============================
     // Maintenance
@@ -176,7 +130,6 @@ public abstract class Vehicle
     @Override
     public void performMaintenance() {
 
-
         System.out.println(
                 "Maintenance completed for vehicle "
                 + id
@@ -185,43 +138,22 @@ public abstract class Vehicle
 
     }
 
-
-
-
-
-
     @Override
     public boolean needsMaintenance() {
 
-
         return mileage > 50000;
-
 
     }
 
-
-
-
-
-
-
     public abstract String getVehicleType();
-
-
 
     public abstract double calculateRentalCost(
             int days
     );
 
 
-
-
-
-
-
     @Override
     public String toString() {
-
 
         return
 
@@ -239,9 +171,13 @@ public abstract class Vehicle
 
         ", Available: " + available;
 
-
     }
 
+    public void registerRental(int days) {
+        rentalCount++;
 
+        totalRevenue += calculateRentalCost(days);
+
+    }
 
 }
