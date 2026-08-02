@@ -4,7 +4,7 @@ package app;
 import controller.VehicleController;
 import service.StatisticsManager;
 import model.Vehicle;
-
+import javafx.scene.layout.Region;
 
 import javafx.application.Application;
 
@@ -42,7 +42,8 @@ import javafx.stage.Stage;
 public class FleetApplication extends Application {
 
 
-    private Label dashboard;
+    private Label generalDashboard;
+    private Label analysisDashboard;
 
 
 
@@ -353,20 +354,36 @@ public class FleetApplication extends Application {
         // ==================================================
 
 
-        dashboard = new Label();
+        generalDashboard = new Label();
 
+        generalDashboard.setId(
+             "dashboard"
+        );
 
-        dashboard.setId(
-                "dashboard"
+        generalDashboard.getStyleClass()
+             .add(
+                "card"
         );
 
 
-        dashboard.getStyleClass()
-                .add(
-                        "card"
-                );
+
+        analysisDashboard = new Label();
+
+        analysisDashboard.setId(
+             "dashboard"
+        );
+
+        analysisDashboard.getStyleClass()
+             .add(
+                "card"
+        );
+
+        generalDashboard.setWrapText(true);
+        analysisDashboard.setWrapText(true);
 
 
+        generalDashboard.setMinHeight(Region.USE_PREF_SIZE);
+        analysisDashboard.setMinHeight(Region.USE_PREF_SIZE);
 
         updateDashboard(
 
@@ -376,9 +393,30 @@ public class FleetApplication extends Application {
 
         );
 
+        HBox dashboardBox = new HBox(
+                20,
+                generalDashboard,
+                analysisDashboard
+        );
+
+        dashboardBox.setPadding(
+                new Insets(10)
+        );
+
+        HBox.setHgrow(
+                generalDashboard,
+                javafx.scene.layout.Priority.ALWAYS
+        );
+
+        HBox.setHgrow(
+                analysisDashboard,
+                javafx.scene.layout.Priority.ALWAYS
+        );
 
 
+        generalDashboard.setMaxWidth(Double.MAX_VALUE);
 
+        analysisDashboard.setMaxWidth(Double.MAX_VALUE);
 
 
 
@@ -827,7 +865,7 @@ public class FleetApplication extends Application {
 
                 new HBox(
 
-                        15,
+                        25,
 
                         searchField,
 
@@ -890,27 +928,11 @@ public class FleetApplication extends Application {
 
 
 
-        bannerView.setFitWidth(
+        bannerView.setFitWidth(1000);
 
-                1050
+        bannerView.setFitHeight(220);
 
-        );
-
-
-
-        bannerView.setFitHeight(
-
-                160
-
-        );
-
-
-
-        bannerView.setPreserveRatio(
-
-                true
-
-        );
+        bannerView.setPreserveRatio(false);   
 
 
 
@@ -923,43 +945,6 @@ public class FleetApplication extends Application {
                 );
 
 
-        // ==================================================
-        // TITLE
-        // ==================================================
-
-
-        Label title =
-
-                new Label(
-
-                        "🚗 Vehicle Fleet Management System"
-
-                );
-
-
-
-        title.getStyleClass()
-
-                .add(
-
-                        "title-label"
-
-                );
-
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
 
         // ==================================================
         // MAIN LAYOUT
@@ -967,16 +952,13 @@ public class FleetApplication extends Application {
 
 
         VBox root =
-
+             
                 new VBox(
-
                         15,
 
                         bannerView,
 
-                        title,
-
-                        dashboard,
+                        dashboardBox,
 
                         menu,
 
@@ -1025,7 +1007,7 @@ public class FleetApplication extends Application {
 
                         1100,
 
-                        750
+                        800
 
                 );
 
@@ -1271,148 +1253,112 @@ public class FleetApplication extends Application {
 
     private void updateDashboard(
 
-            StatisticsManager statisticsManager,
+        StatisticsManager statisticsManager,
 
-            VehicleController controller
+        VehicleController controller
 
-    ) {
+) {
 
 
+    int total =
+            statisticsManager.getTotalVehicles(
+                    controller.getVehicles()
+            );
 
-        int total =
 
-                controller.getVehicles()
+    int available =
+            statisticsManager.getAvailableVehicles(
+                    controller.getVehicles()
+            );
 
-                        .size();
 
+    int rented =
+            statisticsManager.getRentedVehicles(
+                    controller.getVehicles()
+            );
 
 
+    int maintenance =
+            statisticsManager
+                    .vehiclesNeedingMaintenance(
+                            controller.getVehicles()
+                    )
+                    .size();
 
 
-        int available = 0;
 
-        int rented = 0;
+    double mileage =
+            statisticsManager.calculateAverageMileage(
+                    controller.getVehicles()
+            );
 
 
 
+    double revenue =
+            statisticsManager.calculateTotalRevenue(
+                    controller.getVehicles()
+            );
 
 
-        for(Vehicle vehicle :
 
-                controller.getVehicles()) {
+    Vehicle mostUsed =
+            statisticsManager.getMostRentedVehicle(
+                    controller.getVehicles()
+            );
 
 
+    String vehicleName = "None";
 
-            if(vehicle.isAvailable()) {
 
+    if(mostUsed != null){
 
-                available++;
-
-
-            }
-
-            else {
-
-
-                rented++;
-
-
-            }
-
-
-        }
-
-
-
-
-
-
-
-        int maintenance =
-
-
-                statisticsManager
-
-                        .vehiclesNeedingMaintenance(
-
-                                controller.getVehicles()
-
-                        )
-
-                        .size();
-
-
-
-
-
-
-
-        double averageMileage =
-
-
-                statisticsManager
-
-                        .calculateAverageMileage(
-
-                                controller.getVehicles()
-
-                        );
-
-
-
-
-
-
-
-
-        dashboard.setText(
-
-
-
-                "🚗 Total Vehicles : "
-
-                + total
-
-
-
-                + "\n\n🟢 Available : "
-
-                + available
-
-
-
-                + "\n🔴 Rented : "
-
-                + rented
-
-
-
-                + "\n🟠 Maintenance : "
-
-                + maintenance
-
-
-
-                + "\n\nAverage Mileage : "
-
-                + String.format(
-
-                        "%.2f",
-
-                        averageMileage
-
-                )
-
-                + " km"
-
-
-
-        );
-
-
+        vehicleName =
+                mostUsed.getBrand()
+                + " "
+                + mostUsed.getModel();
 
     }
 
+
+
+    generalDashboard.setText(
+
+            "🚗 FLEET OVERVIEW\n\n"
+
+            + "Total Vehicles : "
+            + total
+
+            + "\n\n🟢 Available : "
+            + available
+
+            + "\n\n🔴 Rented : "
+            + rented
+
+            + "\n\n🟠 Maintenance : "
+            + maintenance
+
+    );
+
+
+
+    analysisDashboard.setText(
+
+            "📊 FLEET ANALYSIS\n\n"
+
+            + "Average Mileage : "
+            + String.format("%.2f", mileage)
+            + " km"
+
+            + "\n\n💰 Total Revenue : "
+            + String.format("%.2f", revenue)
+            + " $"
+
+            + "\n\n🏆 Most Used : "
+            + vehicleName
+
+    );
+
+}
 
 
 

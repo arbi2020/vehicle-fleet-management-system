@@ -577,3 +577,47 @@
     -fx-text-fill: white;
 
 }
+
+.banner-image {
+
+    -fx-background-radius: 12;
+
+    -fx-border-radius: 12;
+
+}
+
+
+#dashboard {
+
+    -fx-font-size: 15px;
+
+    -fx-font-weight: bold;
+
+    -fx-padding: 20;
+
+}
+
+
+#dashboard {
+
+    -fx-font-size: 14px;
+
+    -fx-padding: 20px;
+
+    -fx-alignment: center-left;
+
+}
+
+.card {
+
+    -fx-background-color: white;
+
+    -fx-background-radius: 10;
+
+    -fx-border-radius: 10;
+
+    -fx-padding: 15;
+
+    -fx-font-size: 12px;
+
+}
