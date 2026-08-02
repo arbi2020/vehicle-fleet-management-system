@@ -664,11 +664,15 @@ public class FleetApplication extends Application {
 
 
 
-            controller.rentVehicle(
+            int days = 5;
 
-                    selected.getId()
 
-            );
+        controller.rentVehicle(
+                selected.getId(),
+
+                days
+
+      );  
 
 
 

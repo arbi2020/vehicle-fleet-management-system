@@ -1,12 +1,10 @@
 package controller;
 
 
-
 import java.util.ArrayList;
 import model.Vehicle;
 import service.CsvManager;
 import service.FleetManager;
-
 
 
 
@@ -53,6 +51,8 @@ public class VehicleController {
 
 
 
+
+
     // ===============================
     // Load CSV
     // ===============================
@@ -69,6 +69,7 @@ public class VehicleController {
             CsvManager csvManager =
 
                     new CsvManager();
+
 
 
 
@@ -117,6 +118,7 @@ public class VehicleController {
 
 
 
+
     // ===============================
     // Get vehicles
     // ===============================
@@ -129,6 +131,9 @@ public class VehicleController {
 
 
     }
+
+
+
 
 
 
@@ -161,6 +166,7 @@ public class VehicleController {
             CsvManager csvManager =
 
                     new CsvManager();
+
 
 
 
@@ -202,13 +208,17 @@ public class VehicleController {
 
 
 
+
+
+
     // ===============================
     // Rent vehicle
     // ===============================
 
 
     public void rentVehicle(
-            String id
+            String id,
+            int days
     ) {
 
 
@@ -231,6 +241,11 @@ public class VehicleController {
 
 
 
+            // Update rental statistics
+            vehicle.registerRental(days);
+
+
+
 
             saveChanges();
 
@@ -241,6 +256,8 @@ public class VehicleController {
 
 
     }
+
+
 
 
 
@@ -299,6 +316,32 @@ public class VehicleController {
 
 
     // ===============================
+    // Find vehicle
+    // ===============================
+
+
+    public Vehicle findVehicleById(
+            String id
+    ) {
+
+
+
+        return fleetManager.findVehicleById(
+                id
+        );
+
+
+    }
+
+
+
+
+
+
+
+
+
+    // ===============================
     // Save CSV
     // ===============================
 
@@ -314,6 +357,7 @@ public class VehicleController {
             CsvManager csvManager =
 
                     new CsvManager();
+
 
 
 
@@ -348,8 +392,6 @@ public class VehicleController {
 
 
     }
-
-
 
 
 
